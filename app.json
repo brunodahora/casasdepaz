@@ -4,11 +4,7 @@
     "slug": "casasdepaz",
     "privacy": "public",
     "sdkVersion": "36.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,11 +16,29 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
+    "android": {
+      "package": "br.com.pibcuritiba.casasdepaz",
+      "versionCode": 10000,
+      "permissions": []
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "br.com.pibcuritiba.casasdepaz",
+      "buildNumber": "10000",
+      "icon": "./assets/icon.png"
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "onepibcuritiba",
+            "project": "casasdepaz",
+            "authToken": "2748c61216434d69a0fd6288e827e1d141f5c34d67a244d989915d4c2479212c"
+          }
+        }
+      ]
     }
   }
 }

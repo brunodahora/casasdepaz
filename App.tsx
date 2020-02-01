@@ -1,19 +1,38 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import * as Sentry from "sentry-expo";
+import { AppLoading } from "expo";
+import firebase from "firebase";
+import { env } from "./constants";
+import { RootNavigator } from "./navigations/RootNavigator";
+import { UserContext } from "./helpers";
+
+// Sentry.enableInExpoDevelopment = true;
+
+Sentry.init({
+  dsn: env.sentry.dsn,
+  enableInExpoDevelopment: false,
+  debug: false
+});
+
+firebase.initializeApp({ ...env.firebase });
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
+  const [loading, toggleLoading] = React.useState(true);
+  const [user, setUser] = React.useState<firebase.User | {}>({});
+  React.useEffect(() => {
+    firebase.auth().languageCode = "pt-BR";
+    firebase.auth().onAuthStateChanged((user: firebase.User) => {
+      if (user !== null) {
+        setUser(user);
+      }
+      toggleLoading(false);
+    });
+  });
+  return loading ? (
+    <AppLoading />
+  ) : (
+    <UserContext.Provider value={{ user, setUser }}>
+      <RootNavigator />
+    </UserContext.Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
