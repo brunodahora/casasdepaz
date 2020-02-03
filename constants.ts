@@ -1,26 +1,16 @@
 export const colors = {
-  darkGreen: "#5e8779",
-  lightGreen: "#abecd6",
-  black: "#353535",
-  yellow: "#fbed96",
-  darkYellow: "#ffa601",
-  transparent: "rgba(0,0,0,0)",
-  whiteTransparent: "rgba(255,255,255,0.3)",
-  white: "#ffffff",
-  gray: "#757575",
-  blue: "#277cdf",
-  lightblue: "#7EE8FA",
-  blackTransparent: "#cc353535",
-  yellowTransparent: "#ccfbed96",
-  yellowSea: "#FFAF01",
-  persianGreen: "#00A887",
-  darkPersianGreen: "#028067",
-  yellowGreen: "#B9DA65",
-  yellowGreenTransparent: "#B9DA6580",
-  salmon: "#FFB983",
-  salmonTrasnparent: "#FFB98380",
-  whiteIce: "#E1FAF4",
-  facebookBlue: "#575C91"
+  white: "#fff",
+  purple: "#7F39F3",
+  darkPurple: "#2F007C",
+  gradientStart: "#B2269D",
+  gradientEnd: "#8438EC",
+  gradient: ["#B2269D", "#8438EC"]
+};
+
+export const fontWeight = {
+  light: 200,
+  medium: 500,
+  bold: 700
 };
 
 export const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

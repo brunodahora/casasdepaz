@@ -1,10 +1,18 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
+    "baseUrl": "/",
     "jsx": "react-native",
     "lib": ["dom", "esnext"],
     "moduleResolution": "node",
     "noEmit": true,
+    "paths": {
+      "assets/*": ["./assets/*"],
+      "components/*": ["./components/*"],
+      "helpers/*": ["./helpers/*"],
+      "navigations/*": ["./navigations/*"],
+      "screens/*": ["./screens/*"]
+    },
     "skipLibCheck": true,
     "resolveJsonModule": true
   }
