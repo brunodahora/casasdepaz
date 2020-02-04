@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusBar } from "react-native";
+import { StatusBar, BackHandler } from "react-native";
 import styled from "styled-components/native";
 import {
   FullScreenContainer,
@@ -9,7 +9,7 @@ import {
   Circle
 } from "components";
 import { colors } from "../../../constants";
-import { addCpfMask } from "helpers";
+import { addPhoneMask } from "helpers";
 
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
@@ -34,37 +34,31 @@ const TabsView = styled.View`
   margin-bottom: 42px;
 `;
 
-export function AboutYou({ navigation: { navigate } }) {
-  const [name, setName] = React.useState("");
-  const [surname, setSurname] = React.useState("");
-  const [cpf, setCpf] = React.useState("");
+export function Contacts({ navigation: { navigate } }) {
+  const [email, setEmail] = React.useState("");
+  const [phone, setPhone] = React.useState("");
 
-  const setCpfWithMask = cpf => setCpf(addCpfMask(cpf));
+  const setPhoneWithMask = phone => setPhone(addPhoneMask(phone));
 
   return (
     <StyledFullScreenContainer>
       <FillScreenContainer>
-        <StyledHeaderText>Sobre Você</StyledHeaderText>
-        <TextInput label="Nome" value={name} onChangeText={setName} />
+        <StyledHeaderText>Seus contatos</StyledHeaderText>
+        <TextInput label="Email" value={email} onChangeText={setEmail} />
         <TextInput
-          label="Sobrenome"
-          value={surname}
-          onChangeText={setSurname}
-        />
-        <TextInput
-          label="CPF"
-          value={cpf}
-          onChangeText={setCpfWithMask}
-          maxLength={14}
+          label="Telefone"
+          value={phone}
+          onChangeText={setPhoneWithMask}
+          maxLength={15}
         />
       </FillScreenContainer>
       <TabsView>
-        <Circle color={colors.purple} />
         <Circle color={colors.gray} />
+        <Circle color={colors.purple} />
         <Circle color={colors.gray} />
       </TabsView>
       <GradientButton
-        onPress={() => navigate("Contacts")}
+        onPress={() => navigate("Password")}
         title="Continuar"
         colors={colors.gradient}
         textColor={colors.white}

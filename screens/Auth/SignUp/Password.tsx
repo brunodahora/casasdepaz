@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusBar } from "react-native";
+import { StatusBar, BackHandler } from "react-native";
 import styled from "styled-components/native";
 import {
   FullScreenContainer,
@@ -9,7 +9,6 @@ import {
   Circle
 } from "components";
 import { colors } from "../../../constants";
-import { addCpfMask } from "helpers";
 
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
@@ -34,38 +33,38 @@ const TabsView = styled.View`
   margin-bottom: 42px;
 `;
 
-export function AboutYou({ navigation: { navigate } }) {
-  const [name, setName] = React.useState("");
-  const [surname, setSurname] = React.useState("");
-  const [cpf, setCpf] = React.useState("");
+export function Password({ navigation: { navigate } }) {
+  const [password, setPassword] = React.useState("");
+  const [confirmation, setConfirmation] = React.useState("");
 
-  const setCpfWithMask = cpf => setCpf(addCpfMask(cpf));
+  const goBack = () => navigate("Contacts");
 
   return (
     <StyledFullScreenContainer>
       <FillScreenContainer>
-        <StyledHeaderText>Sobre Você</StyledHeaderText>
-        <TextInput label="Nome" value={name} onChangeText={setName} />
+        <StyledHeaderText>Agora uma senha</StyledHeaderText>
         <TextInput
-          label="Sobrenome"
-          value={surname}
-          onChangeText={setSurname}
+          label="Senha"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
         />
         <TextInput
-          label="CPF"
-          value={cpf}
-          onChangeText={setCpfWithMask}
-          maxLength={14}
+          label="Repetir Senha"
+          value={confirmation}
+          onChangeText={setConfirmation}
+          maxLength={20}
+          secureTextEntry
         />
       </FillScreenContainer>
       <TabsView>
+        <Circle color={colors.gray} />
+        <Circle color={colors.gray} />
         <Circle color={colors.purple} />
-        <Circle color={colors.gray} />
-        <Circle color={colors.gray} />
       </TabsView>
       <GradientButton
-        onPress={() => navigate("Contacts")}
-        title="Continuar"
+        onPress={() => console.log("Cadastrar")}
+        title="Cadastrar"
         colors={colors.gradient}
         textColor={colors.white}
       />

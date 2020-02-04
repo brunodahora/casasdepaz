@@ -2,6 +2,7 @@ export const colors = {
   white: "#fff",
   purple: "#7F39F3",
   darkPurple: "#2F007C",
+  gray: "#D8D8D8",
   gradientStart: "#B2269D",
   gradientEnd: "#8438EC",
   gradient: ["#B2269D", "#8438EC"]
