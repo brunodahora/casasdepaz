@@ -19,7 +19,7 @@ const StyledTouchableOpacity = styled.TouchableOpacity`
     props.transparent ? "transparent" : props.color};
   border-radius: 32px;
   border-color: ${props => props.color};
-  border-width: 2px;
+  border-width: ${props => (props.transparent ? "2px" : "0")};
 `;
 
 const StyledText = styled.Text`

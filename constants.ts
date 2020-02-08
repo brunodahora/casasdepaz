@@ -2,10 +2,12 @@ export const colors = {
   white: "#fff",
   purple: "#7F39F3",
   darkPurple: "#2F007C",
+  green: "#43A82E",
+  darkGreen: "#194411",
   gray: "#D8D8D8",
-  gradientStart: "#B2269D",
-  gradientEnd: "#8438EC",
-  gradient: ["#B2269D", "#8438EC"]
+  gradientStart: "#9DB51D",
+  gradientEnd: "#43A82E",
+  gradient: ["#9DB51D", "#43A82E"]
 };
 
 export const fontWeight = {
@@ -23,6 +25,6 @@ export const env = {
       "2748c61216434d69a0fd6288e827e1d141f5c34d67a244d989915d4c2479212c"
   },
   firebase: {
-    apiKey: "AIzaSyBsJVYi9OBviT0-6DgfySQzFJi7cXcMPj0"
+    apiKey: "AIzaSyBhxZZK4wkF-V-srkUsTVyibgklvsHybjc"
   }
 };

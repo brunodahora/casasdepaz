@@ -14,7 +14,13 @@ Sentry.init({
   debug: false
 });
 
-firebase.initializeApp({ ...env.firebase });
+try {
+  firebase.initializeApp({ ...env.firebase });
+} catch (err) {
+  if (!/already exists/.test(err.message)) {
+    console.error("Firebase initialization error", err.stack);
+  }
+}
 
 export default function App() {
   const [loading, toggleLoading] = React.useState(true);

@@ -54,7 +54,7 @@ export function Contacts({ navigation: { navigate } }) {
       </FillScreenContainer>
       <TabsView>
         <Circle color={colors.gray} />
-        <Circle color={colors.purple} />
+        <Circle color={colors.green} />
         <Circle color={colors.gray} />
       </TabsView>
       <GradientButton

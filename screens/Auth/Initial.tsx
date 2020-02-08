@@ -1,21 +1,21 @@
 import React from "react";
-import { Image, StatusBar } from "react-native";
+import { Image, ImageBackground, StatusBar, View } from "react-native";
 import styled from "styled-components/native";
-import {
-  GradientBackground,
-  FullScreenContainer,
-  SolidButton
-} from "components";
+import { FullScreenContainer, SolidButton } from "components";
 import { colors } from "../../constants";
 
-const StyledGradientBackground = styled(GradientBackground)`
+const StyledContainer = styled(View)`
+  flex: 1;
   padding: ${StatusBar.currentHeight + 23}px 16px 32px 16px;
 `;
 
 export function Initial({ navigation: { navigate } }) {
   return (
-    <StyledGradientBackground colors={colors.gradient}>
-      <>
+    <ImageBackground
+      source={require("../../assets/images/color_background.png")}
+      style={{ width: "100%", height: "100%" }}
+    >
+      <StyledContainer>
         <FullScreenContainer>
           <Image source={require("assets/images/logo_white.png")} />
         </FullScreenContainer>
@@ -23,7 +23,7 @@ export function Initial({ navigation: { navigate } }) {
           onPress={() => navigate("Login")}
           title="Login"
           color={colors.white}
-          textColor={colors.purple}
+          textColor={colors.green}
         />
         <SolidButton
           transparent
@@ -31,7 +31,7 @@ export function Initial({ navigation: { navigate } }) {
           title="Criar uma conta"
           color={colors.white}
         />
-      </>
-    </StyledGradientBackground>
+      </StyledContainer>
+    </ImageBackground>
   );
 }

@@ -59,7 +59,7 @@ export function AboutYou({ navigation: { navigate } }) {
         />
       </FillScreenContainer>
       <TabsView>
-        <Circle color={colors.purple} />
+        <Circle color={colors.green} />
         <Circle color={colors.gray} />
         <Circle color={colors.gray} />
       </TabsView>

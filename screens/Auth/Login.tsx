@@ -1,5 +1,7 @@
 import React from "react";
-import { StatusBar } from "react-native";
+import { Alert, StatusBar } from "react-native";
+import firebase from "firebase";
+import * as Sentry from "sentry-expo";
 import styled from "styled-components/native";
 import {
   FullScreenContainer,
@@ -24,6 +26,25 @@ const FillScreenContainer = styled.View`
   width: 100%;
 `;
 
+const attemptLogin = ({ email, password, navigate }) => {
+  firebase
+    .auth()
+    .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+    .then(() =>
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(() => navigate("Main"))
+        .catch(error => {
+          Alert.alert(
+            "Erro ao efetuar o login.\nVerifique seu e-mail e/ou sua senha."
+          );
+          console.log(error);
+          Sentry.captureException(error);
+        })
+    );
+};
+
 export function Login({ navigation: { navigate } }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -46,7 +67,7 @@ export function Login({ navigation: { navigate } }) {
         />
       </FillScreenContainer>
       <GradientButton
-        onPress={() => console.log("Login")}
+        onPress={() => attemptLogin({ email, password, navigate })}
         title="Entrar"
         colors={colors.gradient}
         textColor={colors.white}
@@ -55,7 +76,7 @@ export function Login({ navigation: { navigate } }) {
         transparent
         onPress={() => navigate("SignUp")}
         title="Criar uma conta"
-        color={colors.purple}
+        color={colors.green}
       />
     </StyledFullScreenContainer>
   );

@@ -60,7 +60,7 @@ export function Password({ navigation: { navigate } }) {
       <TabsView>
         <Circle color={colors.gray} />
         <Circle color={colors.gray} />
-        <Circle color={colors.purple} />
+        <Circle color={colors.green} />
       </TabsView>
       <GradientButton
         onPress={() => console.log("Cadastrar")}
