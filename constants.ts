@@ -1,13 +1,15 @@
 export const colors = {
-  white: "#fff",
-  purple: "#7F39F3",
   darkPurple: "#2F007C",
-  green: "#43A82E",
   darkGreen: "#194411",
   gray: "#D8D8D8",
   gradientStart: "#9DB51D",
   gradientEnd: "#43A82E",
-  gradient: ["#9DB51D", "#43A82E"]
+  gradient: ["#9DB51D", "#43A82E"],
+  green: "#43A82E",
+  red: "#DE1520",
+  purple: "#7F39F3",
+  transparentGreen: "#194411",
+  white: "#fff"
 };
 
 export const fontWeight = {
@@ -25,6 +27,10 @@ export const env = {
       "2748c61216434d69a0fd6288e827e1d141f5c34d67a244d989915d4c2479212c"
   },
   firebase: {
-    apiKey: "AIzaSyBhxZZK4wkF-V-srkUsTVyibgklvsHybjc"
+    apiKey: "AIzaSyBhxZZK4wkF-V-srkUsTVyibgklvsHybjc",
+    authDomain: "casas-de-paz-pib.firebaseapp.com",
+    databaseURL: "https://casas-de-paz-pib.firebaseio.com",
+    projectId: "casas-de-paz-pib",
+    storageBucket: "casas-de-paz-pib.appspot.com"
   }
 };

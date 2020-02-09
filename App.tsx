@@ -1,10 +1,13 @@
 import React from "react";
 import * as Sentry from "sentry-expo";
+import { Provider } from "react-redux";
 import { AppLoading } from "expo";
 import firebase from "firebase";
+import "firebase/firestore";
 import { env } from "./constants";
 import { RootNavigator } from "./navigations/RootNavigator";
 import { UserContext } from "./helpers";
+import { store } from "./store";
 
 // Sentry.enableInExpoDevelopment = true;
 
@@ -29,16 +32,33 @@ export default function App() {
     firebase.auth().languageCode = "pt-BR";
     firebase.auth().onAuthStateChanged((user: firebase.User) => {
       if (user !== null) {
-        setUser(user);
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(user.uid)
+          .get()
+          .then(function(doc) {
+            if (doc.exists) {
+              setUser({ ...user, ...doc.data() });
+            } else {
+              console.log("No such document!");
+            }
+            setUser(user);
+          })
+          .catch(function(error) {
+            console.log("Error getting document:", error);
+          });
+        toggleLoading(false);
       }
-      toggleLoading(false);
     });
   });
   return loading ? (
     <AppLoading />
   ) : (
     <UserContext.Provider value={{ user, setUser }}>
-      <RootNavigator />
+      <Provider store={store}>
+        <RootNavigator />
+      </Provider>
     </UserContext.Provider>
   );
 }

@@ -2,13 +2,18 @@ import React from "react";
 import styled from "styled-components/native";
 import { colors, fontWeight } from "../constants";
 
-type Props = {
+type Option = {
   label: string;
   value: string;
-  onChangeText: (string) => void;
-  secureTextEntry?: boolean;
-  keyboardType?: string;
+};
+
+type Props = {
+  label: string;
+  selectedValue: string;
+  onValueChange: (itemValue: string, itemIndex: number) => void;
   error?: string;
+  options: Array<Option>;
+  placeholder?: Option;
 };
 
 const StyledLabel = styled.Text`
@@ -23,7 +28,7 @@ const StyledError = styled(StyledLabel)`
   margin-bottom: 12px;
 `;
 
-const StyledTextInput = styled.TextInput`
+const StyledPicker = styled.Picker`
   color: ${props => (props.error ? colors.red : colors.darkGreen)};
   font-size: 18px;
   padding: 12px;
@@ -37,15 +42,27 @@ const StyledHR = styled.View`
   margin-bottom: 12px;
 `;
 
-export const TextInput = ({ label, error, ...otherProps }: Props) => (
+export const Picker = ({
+  label,
+  error,
+  placeholder = null,
+  options = [],
+  ...otherProps
+}: Props) => (
   <>
     <StyledLabel error={error}>{label}</StyledLabel>
-    <StyledTextInput
-      {...otherProps}
-      error={error}
-      selectionColor={colors.darkGreen}
-      underlineColorAndroid="transparent"
-    />
+    <StyledPicker {...otherProps} error={error}>
+      {placeholder && (
+        <StyledPicker.Item
+          key={placeholder.label}
+          label={placeholder.label}
+          value={placeholder.value}
+        />
+      )}
+      {options.map(({ label, value }) => (
+        <StyledPicker.Item key={label} label={label} value={value} />
+      ))}
+    </StyledPicker>
     <StyledHR error={error} />
     {error && <StyledError>{error}</StyledError>}
   </>

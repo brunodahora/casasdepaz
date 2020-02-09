@@ -11,7 +11,8 @@
       "components/*": ["./components/*"],
       "helpers/*": ["./helpers/*"],
       "navigations/*": ["./navigations/*"],
-      "screens/*": ["./screens/*"]
+      "screens/*": ["./screens/*"],
+      "store/*": ["./store/*"]
     },
     "skipLibCheck": true,
     "resolveJsonModule": true

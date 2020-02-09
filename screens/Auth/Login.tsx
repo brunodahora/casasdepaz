@@ -26,28 +26,41 @@ const FillScreenContainer = styled.View`
   width: 100%;
 `;
 
-const attemptLogin = ({ email, password, navigate }) => {
-  firebase
-    .auth()
-    .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-    .then(() =>
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(() => navigate("Main"))
-        .catch(error => {
-          Alert.alert(
-            "Erro ao efetuar o login.\nVerifique seu e-mail e/ou sua senha."
-          );
-          console.log(error);
-          Sentry.captureException(error);
-        })
-    );
-};
+const StyledActivityIndicator = styled.ActivityIndicator`
+  align-self: center;
+  justify-content: center;
+  height: 120px;
+  width: 100%;
+`;
 
 export function Login({ navigation: { navigate } }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+
+  const attemptLogin = () => {
+    setLoading(true);
+    firebase
+      .auth()
+      .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+      .then(() =>
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(email, password)
+          .then(() => {
+            setLoading(false);
+            navigate("Main");
+          })
+          .catch(error => {
+            setLoading(false);
+            Alert.alert(
+              "Erro ao efetuar o login.\nVerifique seu e-mail e/ou sua senha."
+            );
+            console.log(error);
+            Sentry.captureException(error);
+          })
+      );
+  };
 
   return (
     <StyledFullScreenContainer>
@@ -66,18 +79,24 @@ export function Login({ navigation: { navigate } }) {
           secureTextEntry
         />
       </FillScreenContainer>
-      <GradientButton
-        onPress={() => attemptLogin({ email, password, navigate })}
-        title="Entrar"
-        colors={colors.gradient}
-        textColor={colors.white}
-      />
-      <SolidButton
-        transparent
-        onPress={() => navigate("SignUp")}
-        title="Criar uma conta"
-        color={colors.green}
-      />
+      {loading ? (
+        <StyledActivityIndicator size="large" color={colors.green} />
+      ) : (
+        <>
+          <GradientButton
+            onPress={() => attemptLogin()}
+            title="Entrar"
+            colors={colors.gradient}
+            textColor={colors.white}
+          />
+          <SolidButton
+            transparent
+            onPress={() => navigate("SignUp")}
+            title="Criar uma conta"
+            color={colors.green}
+          />
+        </>
+      )}
     </StyledFullScreenContainer>
   );
 }

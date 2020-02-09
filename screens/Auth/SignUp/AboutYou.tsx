@@ -1,6 +1,8 @@
 import React from "react";
-import { StatusBar } from "react-native";
+import { BackHandler, StatusBar } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
+import isEmpty from "lodash/isEmpty";
 import {
   FullScreenContainer,
   GradientButton,
@@ -8,8 +10,11 @@ import {
   TextInput,
   Circle
 } from "components";
+import { getAboutYouData } from "store/selectors";
 import { colors } from "../../../constants";
 import { addCpfMask } from "helpers";
+import { SignUpData } from "../../../models";
+import { updateSignUpData, clearSignUpData } from "store/actionCreators";
 
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
@@ -34,37 +39,95 @@ const TabsView = styled.View`
   margin-bottom: 42px;
 `;
 
-export function AboutYou({ navigation: { navigate } }) {
-  const [name, setName] = React.useState("");
-  const [surname, setSurname] = React.useState("");
-  const [cpf, setCpf] = React.useState("");
+type Errors = {
+  name?: string;
+  surname?: string;
+  cpf?: string;
+};
 
-  const setCpfWithMask = cpf => setCpf(addCpfMask(cpf));
+export function AboutYou({ navigation: { navigate, goBack } }) {
+  const dispatch = useDispatch();
+  const { name, surname, cpf } = useSelector(getAboutYouData);
+
+  const [errors, setErrors] = React.useState<Errors>({});
+
+  const updateData = (payload: SignUpData) =>
+    dispatch(updateSignUpData(payload));
+
+  const setName = (name: string) => {
+    updateData({ name });
+    setErrors({ ...errors, name: undefined });
+  };
+  const setSurname = (surname: string) => {
+    updateData({ surname });
+    setErrors({ ...errors, surname: undefined });
+  };
+  const setCpfWithMask = (cpf: string) => {
+    updateData({ cpf: addCpfMask(cpf) });
+    setErrors({ ...errors, cpf: undefined });
+  };
+
+  const onSubmit = () => {
+    let errors: Errors = {};
+
+    if (name === "") errors.name = "Nome é obrigatório";
+    if (surname === "") errors.surname = "Sobrenome é obrigatório";
+    if (cpf === "") errors.cpf = "CPF é obrigatório";
+    if (cpf.length < 14) errors.cpf = "CPF incompleto";
+
+    if (isEmpty(errors)) {
+      navigate("Contacts");
+    } else {
+      setErrors(errors);
+    }
+  };
+
+  const handleBackPress = () => {
+    dispatch(clearSignUpData());
+    navigate("Initial");
+    return true;
+  };
+
+  React.useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      handleBackPress
+    );
+    return () => backHandler.remove();
+  });
 
   return (
     <StyledFullScreenContainer>
       <FillScreenContainer>
         <StyledHeaderText>Sobre Você</StyledHeaderText>
-        <TextInput label="Nome" value={name} onChangeText={setName} />
+        <TextInput
+          label="Nome"
+          value={name}
+          onChangeText={setName}
+          error={errors.name}
+        />
         <TextInput
           label="Sobrenome"
           value={surname}
           onChangeText={setSurname}
+          error={errors.surname}
         />
         <TextInput
           label="CPF"
           value={cpf}
           onChangeText={setCpfWithMask}
           maxLength={14}
+          error={errors.cpf}
         />
       </FillScreenContainer>
       <TabsView>
         <Circle color={colors.green} />
         <Circle color={colors.gray} />
         <Circle color={colors.gray} />
+        <Circle color={colors.gray} />
       </TabsView>
       <GradientButton
-        onPress={() => navigate("Contacts")}
+        onPress={onSubmit}
         title="Continuar"
         colors={colors.gradient}
         textColor={colors.white}

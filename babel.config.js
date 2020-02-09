@@ -12,7 +12,8 @@ module.exports = function(api) {
             constants: "./constants.js",
             helpers: "./helpers",
             navigations: "./navigations",
-            screens: "./screens"
+            screens: "./screens",
+            store: "./store"
           }
         }
       ]

@@ -1,5 +1,5 @@
 import { createMaterialTopTabNavigator } from "react-navigation-tabs";
-import { AboutYou, Contacts, Password } from "screens/Auth/SignUp";
+import { AboutYou, Contacts, MoreInfo, Password } from "screens/Auth/SignUp";
 
 export const SignUpNavigator = createMaterialTopTabNavigator(
   {
@@ -9,12 +9,17 @@ export const SignUpNavigator = createMaterialTopTabNavigator(
     Contacts: {
       screen: Contacts
     },
+    MoreInfo: {
+      screen: MoreInfo
+    },
     Password: {
       screen: Password
     }
   },
   {
     swipeEnabled: true,
-    tabBarComponent: null
+    tabBarComponent: null,
+    backBehavior: "order",
+    lazy: true
   }
 );
