@@ -3,7 +3,8 @@ export type User = {
   email: string;
 };
 
-export type SignUpData = {
+export type UserData = {
+  uid?: string;
   name?: string;
   surname?: string;
   cpf?: string;
@@ -12,10 +13,20 @@ export type SignUpData = {
   hasCellGroup?: boolean;
   gender?: string;
   age?: string;
+  clearUser?: boolean;
+};
+
+export type SignUpData = UserData & {
   password?: string;
   confirmPassword?: string;
 };
 
 export type ReduxState = {
   signUp: SignUpData;
+};
+
+export type NavigationProps = {
+  navigation: {
+    navigate: (string, object?) => void;
+  };
 };

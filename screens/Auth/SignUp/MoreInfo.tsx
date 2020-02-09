@@ -1,5 +1,5 @@
 import React from "react";
-import { BackHandler, StatusBar } from "react-native";
+import { StatusBar } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 import isEmpty from "lodash/isEmpty";
@@ -9,7 +9,8 @@ import {
   HeaderText,
   TextInput,
   Circle,
-  Picker
+  Picker,
+  BackButton
 } from "components";
 import { getMoreInfoData } from "store/selectors";
 import { colors } from "../../../constants";
@@ -84,6 +85,7 @@ export function MoreInfo({ navigation: { navigate } }) {
   return (
     <StyledFullScreenContainer>
       <FillScreenContainer>
+      <BackButton onPress={() => navigate("Contacts")} />
         <StyledHeaderText>Mais uma coisinha</StyledHeaderText>
         <Picker
           label="Participa de uma célula da PIB Curitiba?"

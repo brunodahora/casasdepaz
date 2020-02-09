@@ -8,6 +8,7 @@ import { env } from "./constants";
 import { RootNavigator } from "./navigations/RootNavigator";
 import { UserContext } from "./helpers";
 import { store } from "./store";
+import { SignUpData } from "./models";
 
 // Sentry.enableInExpoDevelopment = true;
 
@@ -27,7 +28,7 @@ try {
 
 export default function App() {
   const [loading, toggleLoading] = React.useState(true);
-  const [user, setUser] = React.useState<firebase.User | {}>({});
+  const [user, setUser] = React.useState<SignUpData>({});
   React.useEffect(() => {
     firebase.auth().languageCode = "pt-BR";
     firebase.auth().onAuthStateChanged((user: firebase.User) => {
@@ -37,21 +38,23 @@ export default function App() {
           .collection("users")
           .doc(user.uid)
           .get()
-          .then(function(doc) {
+          .then(doc => {
             if (doc.exists) {
-              setUser({ ...user, ...doc.data() });
+              setUser(doc.data());
             } else {
               console.log("No such document!");
             }
-            setUser(user);
+            toggleLoading(false);
           })
           .catch(function(error) {
             console.log("Error getting document:", error);
+            toggleLoading(false);
           });
+      } else {
         toggleLoading(false);
       }
     });
-  });
+  }, []);
   return loading ? (
     <AppLoading />
   ) : (

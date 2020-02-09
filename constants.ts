@@ -6,9 +6,10 @@ export const colors = {
   gradientEnd: "#43A82E",
   gradient: ["#9DB51D", "#43A82E"],
   green: "#43A82E",
+  lightBlue: "#007AFF",
   red: "#DE1520",
   purple: "#7F39F3",
-  transparentGreen: "#194411",
+  transparentGreen: "#1944114D",
   white: "#fff"
 };
 

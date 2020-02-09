@@ -10,7 +10,9 @@ import {
   HeaderText,
   TextInput
 } from "components";
+import { UserContext } from "helpers";
 import { colors } from "../../constants";
+
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
   padding: ${StatusBar.currentHeight + 23}px 16px 32px 16px;
@@ -37,6 +39,7 @@ export function Login({ navigation: { navigate } }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+  const { setUser } = React.useContext(UserContext);
 
   const attemptLogin = () => {
     setLoading(true);
@@ -47,9 +50,26 @@ export function Login({ navigation: { navigate } }) {
         firebase
           .auth()
           .signInWithEmailAndPassword(email, password)
-          .then(() => {
-            setLoading(false);
-            navigate("Main");
+          .then(({ user: { uid } }) => {
+            firebase
+              .firestore()
+              .collection("users")
+              .doc(uid)
+              .get()
+              .then(doc => {
+                if (doc.exists) {
+                  setUser(doc.data());
+                  setLoading(false);
+                  navigate("Main");
+                } else {
+                  console.log("No such document!");
+                }
+              })
+              .catch(error => {
+                setLoading(false);
+                console.log(error);
+                Sentry.captureException(error);
+              });
           })
           .catch(error => {
             setLoading(false);

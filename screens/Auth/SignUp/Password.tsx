@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusBar, BackHandler, View, Alert } from "react-native";
+import { StatusBar, View, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 import isEmpty from "lodash/isEmpty";
@@ -11,12 +11,13 @@ import {
   GradientButton,
   HeaderText,
   TextInput,
-  Circle
+  Circle,
+  BackButton
 } from "components";
-import { colors } from "../../../constants";
 import { getSignUpData } from "store/selectors";
-import { SignUpData } from "../../../models";
-import { updateSignUpData } from "../../../store/actionCreators";
+import { updateSignUpData } from "store/actionCreators";
+import { colors } from "../../../constants";
+import { SignUpData, NavigationProps } from "../../../models";
 
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
@@ -52,7 +53,9 @@ type Errors = {
   confirmPassword?: string;
 };
 
-export function Password({ navigation: { navigate } }) {
+export function Password({
+  navigation: { navigate }
+}: NavigationProps): JSX.Element {
   const dispatch = useDispatch();
   const {
     name,
@@ -155,6 +158,7 @@ export function Password({ navigation: { navigate } }) {
   return (
     <StyledFullScreenContainer>
       <FillScreenContainer>
+        <BackButton onPress={() => navigate("MoreInfo")} />
         <StyledHeaderText>Agora uma senha</StyledHeaderText>
         <TextInput
           label="Senha"

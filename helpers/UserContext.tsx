@@ -1,4 +1,4 @@
 import React from "react";
-import firebase from "firebase";
+import { UserData } from "../models";
 
-export const UserContext = React.createContext<firebase.User | {}>({});
+export const UserContext = React.createContext<UserData>({});

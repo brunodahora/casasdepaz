@@ -1,7 +1,9 @@
 import React from "react";
 import { Image, ImageBackground, StatusBar, View } from "react-native";
 import styled from "styled-components/native";
+import isEmpty from "lodash/isEmpty";
 import { FullScreenContainer, SolidButton } from "components";
+import { UserContext } from "helpers";
 import { colors } from "../../constants";
 
 const StyledContainer = styled(View)`
@@ -9,7 +11,18 @@ const StyledContainer = styled(View)`
   padding: ${StatusBar.currentHeight + 23}px 16px 32px 16px;
 `;
 
-export function Initial({ navigation: { navigate } }) {
+export function Initial({ navigation: { navigate }, route }) {
+  const { user, setUser } = React.useContext(UserContext);
+
+  if (!isEmpty(user)) {
+    if (user.clearUser) {
+      setUser({});
+    } else {
+      navigate("Main");
+    }
+    return null;
+  }
+
   return (
     <ImageBackground
       source={require("../../assets/images/color_background.png")}

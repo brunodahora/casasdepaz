@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusBar, BackHandler } from "react-native";
+import { Image, StatusBar } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 import isEmpty from "lodash/isEmpty";
@@ -8,10 +8,11 @@ import {
   GradientButton,
   HeaderText,
   TextInput,
-  Circle
+  Circle,
+  BackButton
 } from "components";
-import { getContactsData } from "store/selectors";
 import { addPhoneMask } from "helpers";
+import { getContactsData } from "store/selectors";
 import { updateSignUpData } from "store/actionCreators";
 import { SignUpData } from "../../../models";
 import { colors, emailRegex } from "../../../constants";
@@ -82,6 +83,7 @@ export function Contacts({ navigation: { navigate } }) {
   return (
     <StyledFullScreenContainer>
       <FillScreenContainer>
+        <BackButton onPress={() => navigate("AboutYou")} />
         <StyledHeaderText>Seus contatos</StyledHeaderText>
         <TextInput
           label="Email"
