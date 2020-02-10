@@ -131,7 +131,7 @@ export function Profile({
       .firestore()
       .collection("users")
       .doc(uid)
-      .set(newUser);
+      .update(newUser);
     userContext.setUser(newUser);
     setLoading(false);
     navigate("Main");

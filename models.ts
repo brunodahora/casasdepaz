@@ -44,5 +44,7 @@ export type ReduxState = {
 export type NavigationProps = {
   navigation: {
     navigate: (string, object?) => void;
+    addListener: (string, Function) => void;
+    getParam: (string, any) => any;
   };
 };

@@ -58,15 +58,17 @@ type Errors = {
   partner?: string;
 };
 
-export function Meeting({ navigation: { navigate } }) {
+export function Meeting({ navigation: { navigate, getParam }, route }) {
   const dispatch = useDispatch();
   const { name, time, owner, phone, email, partner } = useSelector(
     getMeetingData
   );
-  const { user, setUser } = React.useContext(UserContext);
+  const { user } = React.useContext(UserContext);
   const [loading, setLoading] = React.useState(false);
-
   const [errors, setErrors] = React.useState<Errors>({});
+
+  const id = getParam("id", null);
+  const placeId = getParam("placeId", null);
 
   const updateData = (payload: PlaceData) => dispatch(updatePlaceData(payload));
 
@@ -119,10 +121,11 @@ export function Meeting({ navigation: { navigate } }) {
           .firestore()
           .collection(`users/${user.uid}/places`)
           .add({
-            id: place.id,
+            placeId: place.id,
             name
           })
           .then(() => {
+            dispatch(clearPlaceData());
             navigate("Main");
             setLoading(false);
           })
@@ -135,6 +138,53 @@ export function Meeting({ navigation: { navigate } }) {
       .catch(error => {
         setLoading(false);
         console.log("Error adding place: ", error);
+        Sentry.captureException(error);
+      });
+  };
+
+  const savePlace = () => {
+    setLoading(true);
+    firebase
+      .firestore()
+      .collection("places")
+      .doc(placeId)
+      .set({
+        // type,
+        // address,
+        // cep,
+        // neighborhood,
+        // state,
+        // city,
+        time,
+        name,
+        owner,
+        phone,
+        email,
+        partner
+      })
+      .then(() => {
+        firebase
+          .firestore()
+          .collection(`users/${user.uid}/places`)
+          .doc(id)
+          .update({
+            placeId,
+            name
+          })
+          .then(() => {
+            dispatch(clearPlaceData());
+            navigate("Main");
+            setLoading(false);
+          })
+          .catch(error => {
+            setLoading(false);
+            console.log(`Error updating place ${placeId} to user: `, error);
+            Sentry.captureException(error);
+          });
+      })
+      .catch(error => {
+        setLoading(false);
+        console.log(`Error updating place ${placeId}: `, error);
         Sentry.captureException(error);
       });
   };
@@ -155,7 +205,7 @@ export function Meeting({ navigation: { navigate } }) {
 
     if (isEmpty(errors)) {
       // navigate("Place");
-      createPlace();
+      placeId ? savePlace() : createPlace();
     } else {
       setErrors(errors);
     }
@@ -175,6 +225,27 @@ export function Meeting({ navigation: { navigate } }) {
     return () => backHandler.remove();
   });
 
+  React.useEffect(() => {
+    if (placeId) {
+      firebase
+        .firestore()
+        .collection("places")
+        .doc(placeId)
+        .get()
+        .then(doc => {
+          if (doc.exists) {
+            dispatch(updatePlaceData(doc.data()));
+          } else {
+            console.log("No such document!");
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          Sentry.captureException(error);
+        });
+    }
+  }, [placeId]);
+
   return (
     <StyledFullScreenContainer>
       <ScrollViewContainer>
@@ -186,6 +257,7 @@ export function Meeting({ navigation: { navigate } }) {
             value={name}
             onChangeText={setName}
             error={errors.name}
+            placeholder="Casa do João"
           />
           <TextInput
             label="Horário"
@@ -194,38 +266,43 @@ export function Meeting({ navigation: { navigate } }) {
             error={errors.time}
             keyboardType="number-pad"
             maxLength={13}
+            placeholder="18:00 - 19:00"
           />
           <TextInput
             label="Nome do proprietário"
             value={owner}
             onChangeText={setOwner}
             error={errors.owner}
+            placeholder="João da Silva"
           />
           <TextInput
             label="Telefone"
             value={phone}
             onChangeText={setPhoneWithMask}
             error={errors.phone}
+            placeholder="(41) 98765-4321"
           />
           <TextInput
             label="E-mail"
             value={email}
             onChangeText={setEmail}
             error={errors.email}
+            placeholder="joao.silva@casasdepaz.com.br"
           />
           <TextInput
-            label="Dupla para a casa de paz"
+            label="CPF da dupla para a casa de paz"
             value={partner}
             onChangeText={setPartnerWithMask}
             maxLength={14}
             error={errors.partner}
+            placeholder="123.456.789-09"
           />
           {loading ? (
             <StyledActivityIndicator size="large" color={colors.green} />
           ) : (
             <GradientButton
               onPress={onSubmit}
-              title="Cadastrar"
+              title={placeId ? "Salvar" : "Cadastrar"}
               colors={colors.gradient}
               textColor={colors.white}
             />

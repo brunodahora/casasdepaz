@@ -5,21 +5,30 @@ import * as Sentry from "sentry-expo";
 import styled from "styled-components/native";
 import { FullScreenContainer, GradientButton } from "components";
 import { UserContext } from "helpers";
-import { colors, fontWeight } from "../../constants";
+import { colors } from "../../constants";
 import { NavigationProps } from "../../models";
+import { PlacesList } from "components/PlacesList";
 
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
-  padding: ${StatusBar.currentHeight + 23}px 16px 32px 16px;
+  padding: ${StatusBar.currentHeight + 23}px 0px 16px 0px;
   width: 100%;
+`;
+
+const StyledHorizontalPadding = styled.View`
+  width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
 `;
 
 const StyledHeader = styled.View`
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 56px;
+  margin-bottom: 32px;
   width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
 `;
 
 const StyledNameText = styled.Text`
@@ -38,6 +47,8 @@ const StyledSubHeader = styled.View`
   flex-direction: row;
   align-items: center;
   margin-bottom: 20px;
+  padding-left: 16px;
+  padding-right: 16px;
 `;
 
 const StyledTitle = styled.Text`
@@ -47,24 +58,46 @@ const StyledTitle = styled.Text`
   color: ${colors.red};
 `;
 
-const StyledEmptyText = styled.Text`
-  font-size: 14px;
-  font-weight: ${fontWeight.light};
-  line-height: 16px;
-  color: ${colors.transparentGreen};
+const StyledActivityIndicator = styled.ActivityIndicator`
+  flex: 1;
+  align-self: center;
+  justify-content: center;
 `;
 
-export function Main({
-  navigation: { navigate }
-}: NavigationProps): JSX.Element {
+export function Main({ navigation }: NavigationProps): JSX.Element {
   const {
-    user: { name, surname }
+    user: { uid, name, surname }
   } = React.useContext(UserContext);
+  const [loading, setLoading] = React.useState(true);
+  const [places, setPlaces] = React.useState([]);
+
+  const fetchPlaces = () => {
+    setLoading(true);
+    firebase
+      .firestore()
+      .collection(`users/${uid}/places`)
+      .get()
+      .then(querySnapshot => {
+        const userPlaces = [];
+        querySnapshot.forEach(doc =>
+          userPlaces.push({ id: doc.id, ...doc.data() })
+        );
+        setPlaces(userPlaces);
+        setLoading(false);
+      })
+      .catch(error => {
+        setLoading(false);
+        console.log(error);
+        Sentry.captureException(error);
+      });
+  };
+  navigation.addListener("willFocus", fetchPlaces);
+
   return (
     <StyledFullScreenContainer>
       <StyledHeader>
         <StyledNameText>{`${name} ${surname}`}</StyledNameText>
-        <TouchableOpacity onPress={() => navigate("Profile")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
           <Image
             source={require("assets/images/ic_gear.png")}
             style={{ width: 24, height: 24, tintColor: colors.green }}
@@ -84,14 +117,19 @@ export function Main({
         <StyledTitle>Casas de paz</StyledTitle>
       </StyledSubHeader>
       <FillScreenContainer>
-        <StyledEmptyText>Nenhuma casa cadastrada no momento</StyledEmptyText>
+        {loading && <StyledActivityIndicator size="large" color={colors.red} />}
+        {!loading && (
+          <PlacesList places={places} navigate={navigation.navigate} />
+        )}
       </FillScreenContainer>
-      <GradientButton
-        onPress={() => navigate("Meeting")}
-        title="+ Cadastrar casa de paz"
-        colors={colors.gradient}
-        textColor={colors.white}
-      />
+      <StyledHorizontalPadding>
+        <GradientButton
+          onPress={() => navigation.navigate("Meeting")}
+          title="+ Cadastrar casa de paz"
+          colors={colors.gradient}
+          textColor={colors.white}
+        />
+      </StyledHorizontalPadding>
     </StyledFullScreenContainer>
   );
 }
