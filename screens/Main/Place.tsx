@@ -33,7 +33,7 @@ const ScrollViewContainer = styled.ScrollView`
 `;
 
 const PaddingBottom = styled.View`
-  padding-bottom: 32px;
+  padding-bottom: 16px;
 `;
 
 type Errors = {
@@ -148,15 +148,15 @@ export function Place({ navigation: { navigate } }) {
             onChangeText={setCity}
             error={errors.city}
           />
-          <GradientButton
-            onPress={onSubmit}
-            title="Cadastrar"
-            colors={colors.gradient}
-            textColor={colors.white}
-          />
-          <PaddingBottom />
         </KeyboardAvoidingView>
       </ScrollViewContainer>
+      <GradientButton
+        onPress={onSubmit}
+        title="Cadastrar"
+        colors={colors.gradient}
+        textColor={colors.white}
+      />
+      <PaddingBottom />
     </StyledFullScreenContainer>
   );
 }

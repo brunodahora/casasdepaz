@@ -49,13 +49,15 @@ const StyledSubHeader = styled.View`
   margin-bottom: 20px;
   padding-left: 16px;
   padding-right: 16px;
+  width: 100%;
 `;
 
 const StyledTitle = styled.Text`
+  color: ${colors.red};
   font-size: 26px;
   font-weight: bold;
   line-height: 31px;
-  color: ${colors.red};
+  width: 100%;
 `;
 
 const StyledActivityIndicator = styled.ActivityIndicator`

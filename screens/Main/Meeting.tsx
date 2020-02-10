@@ -40,7 +40,7 @@ const ScrollViewContainer = styled.ScrollView`
 `;
 
 const PaddingBottom = styled.View`
-  padding-bottom: 32px;
+  padding-bottom: 16px;
 `;
 
 const StyledActivityIndicator = styled.ActivityIndicator`
@@ -134,6 +134,40 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
             console.log("Error adding place to user: ", error);
             Sentry.captureException(error);
           });
+
+        if (partner) {
+          firebase
+            .firestore()
+            .collection(`users`)
+            .where("cpf", "==", partner.replace(/\D/g, ""))
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(doc => {
+                firebase
+                  .firestore()
+                  .collection(`users/${doc.id}/places`)
+                  .add({
+                    placeId: place.id,
+                    name
+                  })
+                  .then(() => {
+                    dispatch(clearPlaceData());
+                    navigate("Main");
+                    setLoading(false);
+                  })
+                  .catch(error => {
+                    setLoading(false);
+                    console.log("Error adding place to partner: ", error);
+                    Sentry.captureException(error);
+                  });
+              });
+            })
+            .catch(error => {
+              setLoading(false);
+              console.log("Error finding partner: ", error);
+              Sentry.captureException(error);
+            });
+        }
       })
       .catch(error => {
         setLoading(false);
@@ -181,6 +215,44 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
             console.log(`Error updating place ${placeId} to user: `, error);
             Sentry.captureException(error);
           });
+
+        if (partner) {
+          firebase
+            .firestore()
+            .collection(`users`)
+            .where("cpf", "==", partner.replace(/\D/g, ""))
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(doc => {
+                firebase
+                  .firestore()
+                  .collection(`users/${doc.id}/places`)
+                  .doc(id)
+                  .update({
+                    placeId,
+                    name
+                  })
+                  .then(() => {
+                    dispatch(clearPlaceData());
+                    navigate("Main");
+                    setLoading(false);
+                  })
+                  .catch(error => {
+                    setLoading(false);
+                    console.log(
+                      `Error updating place ${placeId} to partner: `,
+                      error
+                    );
+                    Sentry.captureException(error);
+                  });
+              });
+            })
+            .catch(error => {
+              setLoading(false);
+              console.log("Error finding partner: ", error);
+              Sentry.captureException(error);
+            });
+        }
       })
       .catch(error => {
         setLoading(false);
@@ -281,6 +353,7 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
             onChangeText={setPhoneWithMask}
             error={errors.phone}
             placeholder="(41) 98765-4321"
+            keyboardType="phone-pad"
           />
           <TextInput
             label="E-mail"
@@ -288,6 +361,7 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
             onChangeText={setEmail}
             error={errors.email}
             placeholder="joao.silva@casasdepaz.com.br"
+            keyboardType="email-address"
           />
           <TextInput
             label="CPF da dupla para a casa de paz"
@@ -296,20 +370,22 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
             maxLength={14}
             error={errors.partner}
             placeholder="123.456.789-09"
+            keyboardType="number-pad"
           />
-          {loading ? (
-            <StyledActivityIndicator size="large" color={colors.green} />
-          ) : (
-            <GradientButton
-              onPress={onSubmit}
-              title={placeId ? "Salvar" : "Cadastrar"}
-              colors={colors.gradient}
-              textColor={colors.white}
-            />
-          )}
           <PaddingBottom />
         </KeyboardAvoidingView>
       </ScrollViewContainer>
+      {loading ? (
+        <StyledActivityIndicator size="large" color={colors.green} />
+      ) : (
+        <GradientButton
+          onPress={onSubmit}
+          title={placeId ? "Salvar" : "Cadastrar"}
+          colors={colors.gradient}
+          textColor={colors.white}
+        />
+      )}
+      <PaddingBottom />
     </StyledFullScreenContainer>
   );
 }

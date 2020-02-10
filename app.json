@@ -4,7 +4,11 @@
     "slug": "casasdepaz",
     "privacy": "public",
     "sdkVersion": "36.0.0",
-    "platforms": ["ios", "android", "web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -16,7 +20,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "android": {
       "package": "br.com.pibcuritiba.casasdepaz",
       "versionCode": 10000,
@@ -39,6 +45,8 @@
           }
         }
       ]
-    }
+    },
+    "description": "Aplicativo para a campanha das Casas de Paz da PIB Curitiba",
+    "githubUrl": "https://github.com/brunodahora/casasdepaz"
   }
 }
