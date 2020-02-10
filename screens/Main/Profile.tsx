@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusBar, Platform } from "react-native";
+import { StatusBar, Platform, KeyboardAvoidingView } from "react-native";
 import styled from "styled-components/native";
 import isEmpty from "lodash/isEmpty";
 import firebase from "firebase";
@@ -27,7 +27,7 @@ const StyledHeaderText = styled(HeaderText)`
   margin: 0 0 60px 5px;
 `;
 
-const FillScreenContainer = styled.ScrollView`
+const ScrollViewContainer = styled.ScrollView`
   flex: 1;
   width: 100%;
 `;
@@ -174,89 +174,91 @@ export function Profile({
 
   return (
     <StyledFullScreenContainer>
-      <FillScreenContainer>
-        {Platform.OS === "ios" && (
-          <BackButton onPress={() => navigate("MoreInfo")} />
-        )}
-        <StyledHeaderText>Perfil</StyledHeaderText>
-        <TextInput
-          label="Nome"
-          value={name}
-          onChangeText={updateUser("name")}
-          error={errors.name}
-        />
-        <TextInput
-          label="Sobrenome"
-          value={surname}
-          onChangeText={updateUser("surname")}
-          error={errors.surname}
-        />
-        <TextInput
-          label="CPF"
-          value={cpf}
-          onChangeText={setCpfWithMask}
-          maxLength={14}
-          error={errors.cpf}
-        />
-        <TextInput
-          label="Email"
-          value={email}
-          onChangeText={updateUser("email")}
-          error={errors.email}
-        />
-        <TextInput
-          label="Telefone"
-          value={phone}
-          onChangeText={setPhoneWithMask}
-          maxLength={15}
-          keyboardType="phone-pad"
-          error={errors.phone}
-        />
-        <Picker
-          label="Participa de uma célula da PIB Curitiba?"
-          error={errors.hasCellGroup}
-          placeholder={{ label: "Selecione...", value: null }}
-          options={[
-            { label: "Sim", value: true },
-            { label: "Não", value: false }
-          ]}
-          selectedValue={hasCellGroup}
-          onValueChange={updateUser("hasCellGroup")}
-        />
-        <Picker
-          label="Sexo"
-          error={errors.gender}
-          placeholder={{ label: "Selecione...", value: "" }}
-          options={[
-            { label: "Masculino", value: "Masculino" },
-            { label: "Feminino", value: "Feminino" }
-          ]}
-          selectedValue={gender}
-          onValueChange={updateUser("gender")}
-        />
-        <TextInput
-          label="Idade"
-          value={age}
-          onChangeText={updateUser("age")}
-          keyboardType="number-pad"
-          error={errors.age}
-        />
-        <StyledTouchableOpacity onPress={() => logout()}>
-          <StyledLogout>Sair</StyledLogout>
-          <StyledHR />
-        </StyledTouchableOpacity>
-        {loading ? (
-          <StyledActivityIndicator size="large" color={colors.green} />
-        ) : (
-          <GradientButton
-            onPress={onSubmit}
-            title="Concluir"
-            colors={colors.gradient}
-            textColor={colors.white}
+      <ScrollViewContainer>
+        <KeyboardAvoidingView behavior="padding" enabled>
+          {Platform.OS === "ios" && (
+            <BackButton onPress={() => navigate("MoreInfo")} />
+          )}
+          <StyledHeaderText>Perfil</StyledHeaderText>
+          <TextInput
+            label="Nome"
+            value={name}
+            onChangeText={updateUser("name")}
+            error={errors.name}
           />
-        )}
-        <PaddingBottom />
-      </FillScreenContainer>
+          <TextInput
+            label="Sobrenome"
+            value={surname}
+            onChangeText={updateUser("surname")}
+            error={errors.surname}
+          />
+          <TextInput
+            label="CPF"
+            value={cpf}
+            onChangeText={setCpfWithMask}
+            maxLength={14}
+            error={errors.cpf}
+          />
+          <TextInput
+            label="Email"
+            value={email}
+            onChangeText={updateUser("email")}
+            error={errors.email}
+          />
+          <TextInput
+            label="Telefone"
+            value={phone}
+            onChangeText={setPhoneWithMask}
+            maxLength={15}
+            keyboardType="phone-pad"
+            error={errors.phone}
+          />
+          <Picker
+            label="Participa de uma célula da PIB Curitiba?"
+            error={errors.hasCellGroup}
+            placeholder={{ label: "Selecione...", value: null }}
+            options={[
+              { label: "Sim", value: true },
+              { label: "Não", value: false }
+            ]}
+            selectedValue={hasCellGroup}
+            onValueChange={updateUser("hasCellGroup")}
+          />
+          <Picker
+            label="Sexo"
+            error={errors.gender}
+            placeholder={{ label: "Selecione...", value: "" }}
+            options={[
+              { label: "Masculino", value: "Masculino" },
+              { label: "Feminino", value: "Feminino" }
+            ]}
+            selectedValue={gender}
+            onValueChange={updateUser("gender")}
+          />
+          <TextInput
+            label="Idade"
+            value={age}
+            onChangeText={updateUser("age")}
+            keyboardType="number-pad"
+            error={errors.age}
+          />
+          <StyledTouchableOpacity onPress={() => logout()}>
+            <StyledLogout>Sair</StyledLogout>
+            <StyledHR />
+          </StyledTouchableOpacity>
+          {loading ? (
+            <StyledActivityIndicator size="large" color={colors.green} />
+          ) : (
+            <GradientButton
+              onPress={onSubmit}
+              title="Concluir"
+              colors={colors.gradient}
+              textColor={colors.white}
+            />
+          )}
+          <PaddingBottom />
+        </KeyboardAvoidingView>
+      </ScrollViewContainer>
     </StyledFullScreenContainer>
   );
 }

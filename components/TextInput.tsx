@@ -34,7 +34,7 @@ const StyledHR = styled.View`
   height: 1px;
   background-color: ${props => (props.error ? colors.red : colors.green)};
   border-radius: 0.5px;
-  margin-bottom: 12px;
+  margin-bottom: ${props => (props.error ? "0px" : "14px")};
 `;
 
 export const TextInput = ({ label, error, ...otherProps }: Props) => (

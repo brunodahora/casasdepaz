@@ -87,7 +87,7 @@ export function Main({
         <StyledEmptyText>Nenhuma casa cadastrada no momento</StyledEmptyText>
       </FillScreenContainer>
       <GradientButton
-        onPress={() => console.log("Criar")}
+        onPress={() => navigate("Meeting")}
         title="+ Cadastrar casa de paz"
         colors={colors.gradient}
         textColor={colors.white}

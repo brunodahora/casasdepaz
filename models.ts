@@ -21,8 +21,24 @@ export type SignUpData = UserData & {
   confirmPassword?: string;
 };
 
+export type PlaceData = {
+  type?: string;
+  address?: string;
+  cep?: string;
+  neighborhood?: string;
+  state?: string;
+  city?: string;
+  time?: string;
+  name?: string;
+  owner?: string;
+  phone?: string;
+  email?: string;
+  partner?: string;
+};
+
 export type ReduxState = {
   signUp: SignUpData;
+  place: PlaceData;
 };
 
 export type NavigationProps = {

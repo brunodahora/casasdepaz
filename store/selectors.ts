@@ -22,3 +22,11 @@ export const getMoreInfoData = ({
   gender,
   age
 });
+
+export const getMeetingData = ({
+  place: { name, time, owner, phone, email, partner }
+}: ReduxState) => ({ name, time, owner, phone, email, partner });
+
+export const getPlaceData = ({
+  place: { type, address, cep, neighborhood, state, city }
+}: ReduxState) => ({ type, address, cep, neighborhood, state, city });
