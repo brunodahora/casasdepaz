@@ -30,7 +30,10 @@ export function Initial({ navigation: { navigate }, route }) {
     >
       <StyledContainer>
         <FullScreenContainer>
-          <Image source={require("assets/images/logo_white.png")} />
+          <Image
+            source={require("assets/images/logo_white.png")}
+            style={{ width: 236, height: 200 }}
+          />
         </FullScreenContainer>
         <SolidButton
           onPress={() => navigate("Login")}
