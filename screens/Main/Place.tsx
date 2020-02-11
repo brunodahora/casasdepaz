@@ -3,6 +3,9 @@ import { StatusBar, Platform, KeyboardAvoidingView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 import isEmpty from "lodash/isEmpty";
+import firebase from "firebase";
+import "firebase/firestore";
+import * as Sentry from "sentry-expo";
 import {
   FullScreenContainer,
   GradientButton,
@@ -12,10 +15,10 @@ import {
   Picker
 } from "components";
 import { getPlaceData } from "store/selectors";
-import { colors, emailRegex } from "../../constants";
-import { addCepMask } from "helpers";
+import { colors } from "../../constants";
+import { addCepMask, UserContext } from "helpers";
 import { PlaceData } from "../../models";
-import { updatePlaceData } from "store/actionCreators";
+import { updatePlaceData, clearPlaceData } from "store/actionCreators";
 
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
@@ -36,8 +39,15 @@ const PaddingBottom = styled.View`
   padding-bottom: 16px;
 `;
 
+const StyledActivityIndicator = styled.ActivityIndicator`
+  align-self: center;
+  justify-content: center;
+  width: 100%;
+`;
+
 type Errors = {
   type?: string;
+  otherType?: string;
   address?: string;
   cep?: string;
   neighborhood?: string;
@@ -45,12 +55,29 @@ type Errors = {
   city?: string;
 };
 
-export function Place({ navigation: { navigate } }) {
+export function Place({ navigation: { navigate, getParam } }) {
   const dispatch = useDispatch();
-  const { type, address, cep, neighborhood, state, city } = useSelector(
-    getPlaceData
-  );
+  const {
+    type,
+    otherType,
+    address,
+    cep,
+    neighborhood,
+    state,
+    city,
+    time,
+    name,
+    owner,
+    phone,
+    email,
+    partner
+  } = useSelector(getPlaceData);
 
+  const id = getParam("id", null);
+  const placeId = getParam("placeId", null);
+
+  const { user } = React.useContext(UserContext);
+  const [loading, setLoading] = React.useState(false);
   const [errors, setErrors] = React.useState<Errors>({});
 
   const updateData = (payload: PlaceData) => dispatch(updatePlaceData(payload));
@@ -58,6 +85,10 @@ export function Place({ navigation: { navigate } }) {
   const setType = (type: string) => {
     updateData({ type });
     setErrors({ ...errors, type: undefined });
+  };
+  const setOtherType = (otherType: string) => {
+    updateData({ otherType });
+    setErrors({ ...errors, otherType: undefined });
   };
   const setAddress = (address: string) => {
     updateData({ address });
@@ -80,9 +111,179 @@ export function Place({ navigation: { navigate } }) {
     setErrors({ ...errors, city: undefined });
   };
 
+  const createPlace = () => {
+    setLoading(true);
+    firebase
+      .firestore()
+      .collection("places")
+      .add({
+        type,
+        otherType,
+        address,
+        cep,
+        neighborhood,
+        state,
+        city,
+        time,
+        name,
+        owner,
+        phone,
+        email,
+        partner
+      })
+      .then(place => {
+        firebase
+          .firestore()
+          .collection(`users/${user.uid}/places`)
+          .add({
+            placeId: place.id,
+            name
+          })
+          .then(() => {
+            dispatch(clearPlaceData());
+            navigate("Main");
+            setLoading(false);
+          })
+          .catch(error => {
+            setLoading(false);
+            console.log("Error adding place to user: ", error);
+            Sentry.captureException(error);
+          });
+
+        if (partner) {
+          firebase
+            .firestore()
+            .collection(`users`)
+            .where("cpf", "==", partner.replace(/\D/g, ""))
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(doc => {
+                firebase
+                  .firestore()
+                  .collection(`users/${doc.id}/places`)
+                  .add({
+                    placeId: place.id,
+                    name
+                  })
+                  .then(() => {
+                    dispatch(clearPlaceData());
+                    navigate("Main");
+                    setLoading(false);
+                  })
+                  .catch(error => {
+                    setLoading(false);
+                    console.log("Error adding place to partner: ", error);
+                    Sentry.captureException(error);
+                  });
+              });
+            })
+            .catch(error => {
+              setLoading(false);
+              console.log("Error finding partner: ", error);
+              Sentry.captureException(error);
+            });
+        }
+      })
+      .catch(error => {
+        setLoading(false);
+        console.log("Error adding place: ", error);
+        Sentry.captureException(error);
+      });
+  };
+
+  const savePlace = () => {
+    setLoading(true);
+    firebase
+      .firestore()
+      .collection("places")
+      .doc(placeId)
+      .set({
+        type,
+        otherType,
+        address,
+        cep,
+        neighborhood,
+        state,
+        city,
+        time,
+        name,
+        owner,
+        phone,
+        email,
+        partner
+      })
+      .then(() => {
+        firebase
+          .firestore()
+          .collection(`users/${user.uid}/places`)
+          .doc(id)
+          .update({
+            placeId,
+            name
+          })
+          .then(() => {
+            dispatch(clearPlaceData());
+            navigate("Main");
+            setLoading(false);
+          })
+          .catch(error => {
+            setLoading(false);
+            console.log(`Error updating place ${placeId} to user: `, error);
+            Sentry.captureException(error);
+          });
+
+        if (partner) {
+          firebase
+            .firestore()
+            .collection(`users`)
+            .where("cpf", "==", partner.replace(/\D/g, ""))
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(doc => {
+                firebase
+                  .firestore()
+                  .collection(`users/${doc.id}/places`)
+                  .doc(id)
+                  .update({
+                    placeId,
+                    name
+                  })
+                  .then(() => {
+                    dispatch(clearPlaceData());
+                    navigate("Main");
+                    setLoading(false);
+                  })
+                  .catch(error => {
+                    setLoading(false);
+                    console.log(
+                      `Error updating place ${placeId} to partner: `,
+                      error
+                    );
+                    Sentry.captureException(error);
+                  });
+              });
+            })
+            .catch(error => {
+              setLoading(false);
+              console.log("Error finding partner: ", error);
+              Sentry.captureException(error);
+            });
+        }
+      })
+      .catch(error => {
+        setLoading(false);
+        console.log(`Error updating place ${placeId}: `, error);
+        Sentry.captureException(error);
+      });
+  };
+
   const onSubmit = () => {
     let errors: Errors = {};
 
+    console.log(type, otherType);
+    if (type === "") errors.address = "Tipo é obrigatório";
+    if (type === "Outros" && otherType === "")
+      errors.address = "Tipo é obrigatório";
     if (address === "") errors.address = "Endereço é obrigatório";
     if (neighborhood === "") errors.neighborhood = "Bairro é obrigatório";
     if (state === "") errors.state = "Estado é obrigatório";
@@ -91,7 +292,7 @@ export function Place({ navigation: { navigate } }) {
     if (cep.length < 8) errors.cep = "CEP incompleto";
 
     if (isEmpty(errors)) {
-      console.log("Cadastrar");
+      placeId ? savePlace() : createPlace();
     } else {
       setErrors(errors);
     }
@@ -111,11 +312,20 @@ export function Place({ navigation: { navigate } }) {
               { label: "Casa", value: "Casa" },
               { label: "Empresa", value: "Empresa" },
               { label: "Escola", value: "Escola" },
-              { label: "Universidade", value: "Universidade" }
+              { label: "Universidade", value: "Universidade" },
+              { label: "Outros", value: "Outros" }
             ]}
             selectedValue={type}
             onValueChange={setType}
           />
+          {type === "Outros" && (
+            <TextInput
+              label="Digite o tipo do local"
+              value={otherType}
+              onChangeText={setOtherType}
+              error={errors.otherType}
+            />
+          )}
           <TextInput
             label="Endereço"
             value={address}
@@ -150,12 +360,16 @@ export function Place({ navigation: { navigate } }) {
           />
         </KeyboardAvoidingView>
       </ScrollViewContainer>
-      <GradientButton
-        onPress={onSubmit}
-        title="Cadastrar"
-        colors={colors.gradient}
-        textColor={colors.white}
-      />
+      {loading ? (
+        <StyledActivityIndicator size="large" color={colors.green} />
+      ) : (
+        <GradientButton
+          onPress={onSubmit}
+          title={placeId ? "Salvar" : "Cadastrar"}
+          colors={colors.gradient}
+          textColor={colors.white}
+        />
+      )}
       <PaddingBottom />
     </StyledFullScreenContainer>
   );

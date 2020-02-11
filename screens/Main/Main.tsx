@@ -3,7 +3,7 @@ import { Image, TouchableOpacity, StatusBar } from "react-native";
 import firebase from "firebase";
 import * as Sentry from "sentry-expo";
 import styled from "styled-components/native";
-import { FullScreenContainer, GradientButton } from "components";
+import { FullScreenContainer, GradientButton, SolidButton } from "components";
 import { UserContext } from "helpers";
 import { colors } from "../../constants";
 import { NavigationProps } from "../../models";
@@ -127,9 +127,15 @@ export function Main({ navigation }: NavigationProps): JSX.Element {
       <StyledHorizontalPadding>
         <GradientButton
           onPress={() => navigation.navigate("Meeting")}
-          title="+ Cadastrar casa de paz"
+          title="+ Cadastrar alvos de fé"
           colors={colors.gradient}
           textColor={colors.white}
+        />
+        <SolidButton
+          transparent
+          onPress={() => navigation.navigate("Info")}
+          title="Saiba mais"
+          color={colors.green}
         />
       </StyledHorizontalPadding>
     </StyledFullScreenContainer>

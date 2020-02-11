@@ -103,7 +103,7 @@ export function Password({
         age
       });
     setLoading(false);
-    navigate("Main");
+    navigate("Success");
   };
 
   const getError = (error: Error) => {

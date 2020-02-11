@@ -13,6 +13,7 @@ const StyledEmptyText = styled.Text`
   font-size: 14px;
   font-weight: ${fontWeight.light};
   line-height: 16px;
+  padding: 0 16px 0 16px;
   color: ${colors.transparentGreen};
 `;
 

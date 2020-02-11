@@ -23,6 +23,7 @@ export type SignUpData = UserData & {
 
 export type PlaceData = {
   type?: string;
+  otherType?: string;
   address?: string;
   cep?: string;
   neighborhood?: string;

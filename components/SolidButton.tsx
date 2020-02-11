@@ -20,16 +20,21 @@ const StyledTouchableOpacity = styled.TouchableOpacity`
   border-radius: 32px;
   border-color: ${props => props.color};
   border-width: ${props => (props.transparent ? "2px" : "0")};
+  flex-direction: row;
 `;
 
 const StyledText = styled.Text`
   color: ${props => (props.transparent ? props.color : props.textColor)};
   font-size: 23px;
+  margin-left: ${props => (props.hasIcon ? "8px" : "0")};
 `;
 
-export const SolidButton = ({ title, ...otherProps }: Props) => (
+export const SolidButton = ({ title, icon, ...otherProps }: Props) => (
   <StyledTouchableOpacity {...otherProps}>
-    <StyledText {...otherProps}>{title}</StyledText>
+    {icon}
+    <StyledText hasIcon={icon} {...otherProps}>
+      {title}
+    </StyledText>
   </StyledTouchableOpacity>
 );
 SolidButton.defaultProps = {

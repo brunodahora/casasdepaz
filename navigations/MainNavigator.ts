@@ -1,10 +1,16 @@
 // @flow
 import { createStackNavigator } from "react-navigation-stack";
-import { Main, Profile, Meeting, Place } from "screens/Main";
+import { Main, Profile, Meeting, Place, Info } from "screens/Main";
 
 export const MainNavigator = createStackNavigator({
   Main: {
     screen: Main,
+    navigationOptions: {
+      headerShown: false
+    }
+  },
+  Info: {
+    screen: Info,
     navigationOptions: {
       headerShown: false
     }

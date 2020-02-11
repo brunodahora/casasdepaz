@@ -4,6 +4,7 @@ import { PlaceData } from "../../models";
 
 const initialState: PlaceData = {
   type: "",
+  otherType: "",
   address: "",
   cep: "",
   neighborhood: "",

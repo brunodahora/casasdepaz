@@ -265,9 +265,9 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
     let errors: Errors = {};
 
     if (name === "") errors.name = "Nome é obrigatório";
-    // if (time === "") errors.time = "Horário é obrigatório";
-    // if (owner === "") errors.owner = "Proprietário é obrigatório";
-    // if (phone === "") errors.phone = "Telefone é obrigatório";
+    if (placeId && time === "") errors.time = "Horário é obrigatório";
+    if (placeId && owner === "") errors.owner = "Proprietário é obrigatório";
+    if (placeId && phone === "") errors.phone = "Telefone é obrigatório";
     if (phone && phone.length < 14) errors.phone = "Número incompleto";
     if (email && !emailRegex.test(String(email).toLowerCase())) {
       errors.email = "E-mail inválido";
@@ -277,7 +277,7 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
 
     if (isEmpty(errors)) {
       // navigate("Place");
-      placeId ? savePlace() : createPlace();
+      placeId ? navigate("Place", { id, placeId }) : createPlace();
     } else {
       setErrors(errors);
     }
@@ -323,7 +323,9 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
       <ScrollViewContainer>
         <KeyboardAvoidingView behavior="padding" enabled>
           {Platform.OS === "ios" && <BackButton onPress={handleBackPress} />}
-          <StyledHeaderText>Dados do encontro</StyledHeaderText>
+          <StyledHeaderText>
+            {placeId ? "Dados do encontro" : "Alvo de fé"}
+          </StyledHeaderText>
           <TextInput
             label="Nome do local"
             value={name}
@@ -331,47 +333,51 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
             error={errors.name}
             placeholder="Casa do João"
           />
-          <TextInput
-            label="Horário"
-            value={time}
-            onChangeText={setTimeWithMask}
-            error={errors.time}
-            keyboardType="number-pad"
-            maxLength={13}
-            placeholder="18:00 - 19:00"
-          />
-          <TextInput
-            label="Nome do proprietário"
-            value={owner}
-            onChangeText={setOwner}
-            error={errors.owner}
-            placeholder="João da Silva"
-          />
-          <TextInput
-            label="Telefone"
-            value={phone}
-            onChangeText={setPhoneWithMask}
-            error={errors.phone}
-            placeholder="(41) 98765-4321"
-            keyboardType="phone-pad"
-          />
-          <TextInput
-            label="E-mail"
-            value={email}
-            onChangeText={setEmail}
-            error={errors.email}
-            placeholder="joao.silva@casasdepaz.com.br"
-            keyboardType="email-address"
-          />
-          <TextInput
-            label="CPF da dupla para a casa de paz"
-            value={partner}
-            onChangeText={setPartnerWithMask}
-            maxLength={14}
-            error={errors.partner}
-            placeholder="123.456.789-09"
-            keyboardType="number-pad"
-          />
+          {placeId && (
+            <>
+              <TextInput
+                label="Horário"
+                value={time}
+                onChangeText={setTimeWithMask}
+                error={errors.time}
+                keyboardType="number-pad"
+                maxLength={13}
+                placeholder="18:00 - 19:00"
+              />
+              <TextInput
+                label="Nome do proprietário"
+                value={owner}
+                onChangeText={setOwner}
+                error={errors.owner}
+                placeholder="João da Silva"
+              />
+              <TextInput
+                label="Telefone do proprietário"
+                value={phone}
+                onChangeText={setPhoneWithMask}
+                error={errors.phone}
+                placeholder="(41) 98765-4321"
+                keyboardType="phone-pad"
+              />
+              <TextInput
+                label="E-mail do proprietário"
+                value={email}
+                onChangeText={setEmail}
+                error={errors.email}
+                placeholder="joao.silva@casasdepaz.com.br"
+                keyboardType="email-address"
+              />
+              <TextInput
+                label="CPF da dupla para a casa de paz (se sozinho, não obrigatório)"
+                value={partner}
+                onChangeText={setPartnerWithMask}
+                maxLength={14}
+                error={errors.partner}
+                placeholder="123.456.789-09"
+                keyboardType="number-pad"
+              />
+            </>
+          )}
           <PaddingBottom />
         </KeyboardAvoidingView>
       </ScrollViewContainer>
@@ -380,7 +386,7 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
       ) : (
         <GradientButton
           onPress={onSubmit}
-          title={placeId ? "Salvar" : "Cadastrar"}
+          title={placeId ? "Continuar" : "Cadastrar"}
           colors={colors.gradient}
           textColor={colors.white}
         />

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import styled from "styled-components/native";
 
@@ -20,6 +21,7 @@ const StyledText = styled.Text`
   background-color: transparent;
   font-size: 23px;
   color: ${props => props.textColor};
+  margin-right: ${props => (props.hasIcon ? "8px" : "0")};
 `;
 
 const StyledLinearGradient = styled(LinearGradient)`
@@ -33,12 +35,16 @@ const StyledLinearGradient = styled(LinearGradient)`
   shadow-radius: 6px;
   shadow-color: black;
   shadow-offset: 2px 2px;
+  flex-direction: row;
 `;
 
-export const GradientButton = ({ colors, title, textColor, onPress }) => (
+export const GradientButton = ({ colors, title, textColor, onPress, icon }) => (
   <StyledTouchableOpacity style={{ width: "100%" }} onPress={onPress}>
     <StyledLinearGradient colors={colors} start={[0, 0]} end={[1, 0]}>
-      <StyledText textColor={textColor}>{title}</StyledText>
+      <StyledText hasIcon={icon} textColor={textColor}>
+        {title}
+      </StyledText>
+      {icon}
     </StyledLinearGradient>
   </StyledTouchableOpacity>
 );
