@@ -1,27 +1,28 @@
-import React from "react";
-import { StatusBar, View, Alert } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components/native";
-import isEmpty from "lodash/isEmpty";
-import firebase from "firebase";
-import "firebase/firestore";
-import * as Sentry from "sentry-expo";
+import React from 'react';
+import { View, Alert } from 'react-native';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components/native';
+import isEmpty from 'lodash/isEmpty';
+import firebase from 'firebase';
+import 'firebase/firestore';
+import * as Sentry from 'sentry-expo';
 import {
   FullScreenContainer,
   GradientButton,
   HeaderText,
   TextInput,
   Circle,
-  BackButton
-} from "components";
-import { getSignUpData } from "store/selectors";
-import { updateSignUpData } from "store/actionCreators";
-import { colors } from "../../../constants";
-import { SignUpData, NavigationProps } from "../../../models";
+  BackButton,
+} from 'components';
+import { getSignUpData } from 'store/selectors';
+import { updateSignUpData } from 'store/actionCreators';
+import { colors } from '../../../constants';
+import { SignUpData, NavigationProps } from '../../../models';
 
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
-  padding: ${StatusBar.currentHeight + 23}px 16px 32px 16px;
+  padding: ${getStatusBarHeight() + 23}px 16px 32px 16px;
   width: 100%;
 `;
 
@@ -54,7 +55,7 @@ type Errors = {
 };
 
 export function Password({
-  navigation: { navigate }
+  navigation: { navigate },
 }: NavigationProps): JSX.Element {
   const dispatch = useDispatch();
   const {
@@ -67,7 +68,7 @@ export function Password({
     gender,
     age,
     password,
-    confirmPassword
+    confirmPassword,
   } = useSelector(getSignUpData);
   const [loading, setLoading] = React.useState(false);
 
@@ -86,32 +87,32 @@ export function Password({
   };
 
   const saveUserOnFirebase = ({ user }) => {
-    console.log("User: ", user);
+    console.log('User: ', user);
     firebase
       .firestore()
-      .collection("users")
+      .collection('users')
       .doc(user.uid)
       .set({
         uid: user.uid,
         name,
         surname,
-        cpf: cpf.replace(/\D/g, ""),
+        cpf: cpf.replace(/\D/g, ''),
         email,
-        phone: phone.replace(/\D/g, ""),
+        phone: phone.replace(/\D/g, ''),
         hasCellGroup,
         gender,
-        age
+        age,
       });
     setLoading(false);
-    navigate("Success");
+    navigate('Success');
   };
 
   const getError = (error: Error) => {
     let errorMessage = error.message;
     if (
-      errorMessage === "The email address is already in use by another account."
+      errorMessage === 'The email address is already in use by another account.'
     ) {
-      errorMessage = "Email já cadastrado.";
+      errorMessage = 'Email já cadastrado.';
     }
     return errorMessage;
   };
@@ -129,23 +130,23 @@ export function Password({
           .then(saveUserOnFirebase)
           .catch(error => {
             setLoading(false);
-            console.log("Error signup: ", error);
+            console.log('Error signup: ', error);
             Alert.alert(
-              `Oops! Algo deu errado no seu cadatro: ${getError(error)}`
+              `Oops! Algo deu errado no seu cadatro: ${getError(error)}`,
             );
             Sentry.captureException(error);
-          })
+          }),
       );
   };
 
   const onSubmit = () => {
     let errors: Errors = {};
 
-    if (password === "") errors.password = "Senha é obrigatório";
-    if (confirmPassword === "") errors.confirmPassword = "Confirme a senha";
+    if (password === '') errors.password = 'Senha é obrigatório';
+    if (confirmPassword === '') errors.confirmPassword = 'Confirme a senha';
     if (password !== confirmPassword) {
-      errors.password = "Senha e confirmação diferentes";
-      errors.confirmPassword = "Senha e confirmação diferentes";
+      errors.password = 'Senha e confirmação diferentes';
+      errors.confirmPassword = 'Senha e confirmação diferentes';
     }
 
     if (isEmpty(errors)) {
@@ -158,7 +159,7 @@ export function Password({
   return (
     <StyledFullScreenContainer>
       <FillScreenContainer>
-        <BackButton onPress={() => navigate("MoreInfo")} />
+        <BackButton onPress={() => navigate('MoreInfo')} />
         <StyledHeaderText>Agora uma senha</StyledHeaderText>
         <TextInput
           label="Senha"

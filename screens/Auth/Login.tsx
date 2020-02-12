@@ -1,21 +1,22 @@
-import React from "react";
-import { Alert, StatusBar } from "react-native";
-import firebase from "firebase";
-import * as Sentry from "sentry-expo";
-import styled from "styled-components/native";
+import React from 'react';
+import { Alert } from 'react-native';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import firebase from 'firebase';
+import * as Sentry from 'sentry-expo';
+import styled from 'styled-components/native';
 import {
   FullScreenContainer,
   SolidButton,
   GradientButton,
   HeaderText,
-  TextInput
-} from "components";
-import { UserContext } from "helpers";
-import { colors } from "../../constants";
+  TextInput,
+} from 'components';
+import { UserContext } from 'helpers';
+import { colors } from '../../constants';
 
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
-  padding: ${StatusBar.currentHeight + 23}px 16px 32px 16px;
+  padding: ${getStatusBarHeight() + 23}px 16px 32px 16px;
   width: 100%;
 `;
 
@@ -36,8 +37,8 @@ const StyledActivityIndicator = styled.ActivityIndicator`
 `;
 
 export function Login({ navigation: { navigate } }) {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const { setUser } = React.useContext(UserContext);
 
@@ -53,16 +54,16 @@ export function Login({ navigation: { navigate } }) {
           .then(({ user: { uid } }) => {
             firebase
               .firestore()
-              .collection("users")
+              .collection('users')
               .doc(uid)
               .get()
               .then(doc => {
                 if (doc.exists) {
                   setUser(doc.data());
                   setLoading(false);
-                  navigate("Main");
+                  navigate('Main');
                 } else {
-                  console.log("No such document!");
+                  console.log('No such document!');
                 }
               })
               .catch(error => {
@@ -74,11 +75,11 @@ export function Login({ navigation: { navigate } }) {
           .catch(error => {
             setLoading(false);
             Alert.alert(
-              "Erro ao efetuar o login.\nVerifique seu e-mail e/ou sua senha."
+              'Erro ao efetuar o login.\nVerifique seu e-mail e/ou sua senha.',
             );
             console.log(error);
             Sentry.captureException(error);
-          })
+          }),
       );
   };
 
@@ -111,7 +112,7 @@ export function Login({ navigation: { navigate } }) {
           />
           <SolidButton
             transparent
-            onPress={() => navigate("SignUp")}
+            onPress={() => navigate('SignUp')}
             title="Criar uma conta"
             color={colors.green}
           />

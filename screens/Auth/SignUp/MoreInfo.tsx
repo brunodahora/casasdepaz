@@ -1,8 +1,8 @@
-import React from "react";
-import { StatusBar } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components/native";
-import isEmpty from "lodash/isEmpty";
+import React from 'react';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components/native';
+import isEmpty from 'lodash/isEmpty';
 import {
   FullScreenContainer,
   GradientButton,
@@ -10,16 +10,16 @@ import {
   TextInput,
   Circle,
   Picker,
-  BackButton
-} from "components";
-import { getMoreInfoData } from "store/selectors";
-import { colors } from "../../../constants";
-import { SignUpData } from "../../../models";
-import { updateSignUpData } from "../../../store/actionCreators";
+  BackButton,
+} from 'components';
+import { getMoreInfoData } from 'store/selectors';
+import { colors } from '../../../constants';
+import { SignUpData } from '../../../models';
+import { updateSignUpData } from '../../../store/actionCreators';
 
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
-  padding: ${StatusBar.currentHeight + 23}px 16px 32px 16px;
+  padding: ${getStatusBarHeight() + 23}px 16px 32px 16px;
   width: 100%;
 `;
 
@@ -71,12 +71,12 @@ export function MoreInfo({ navigation: { navigate } }) {
   const onSubmit = () => {
     let errors: Errors = {};
 
-    if (hasCellGroup === null) errors.hasCellGroup = "Selecione uma opção";
-    if (gender === "") errors.gender = "Selecione uma opção";
-    if (age === "") errors.age = "Idade é obrigatório";
+    if (hasCellGroup === null) errors.hasCellGroup = 'Selecione uma opção';
+    if (gender === '') errors.gender = 'Selecione uma opção';
+    if (age === '') errors.age = 'Idade é obrigatório';
 
     if (isEmpty(errors)) {
-      navigate("Password");
+      navigate('Password');
     } else {
       setErrors(errors);
     }
@@ -85,15 +85,15 @@ export function MoreInfo({ navigation: { navigate } }) {
   return (
     <StyledFullScreenContainer>
       <FillScreenContainer>
-      <BackButton onPress={() => navigate("Contacts")} />
+        <BackButton onPress={() => navigate('Contacts')} />
         <StyledHeaderText>Mais uma coisinha</StyledHeaderText>
         <Picker
           label="Participa de uma célula da PIB Curitiba?"
           error={errors.hasCellGroup}
-          placeholder={{ label: "Selecione...", value: null }}
+          placeholder={{ label: 'Selecione...', value: null }}
           options={[
-            { label: "Sim", value: true },
-            { label: "Não", value: false }
+            { label: 'Sim', value: true },
+            { label: 'Não', value: false },
           ]}
           selectedValue={hasCellGroup}
           onValueChange={setHasCellGroup}
@@ -101,10 +101,10 @@ export function MoreInfo({ navigation: { navigate } }) {
         <Picker
           label="Sexo"
           error={errors.gender}
-          placeholder={{ label: "Selecione...", value: "" }}
+          placeholder={{ label: 'Selecione...', value: '' }}
           options={[
-            { label: "Masculino", value: "Masculino" },
-            { label: "Feminino", value: "Feminino" }
+            { label: 'Masculino', value: 'Masculino' },
+            { label: 'Feminino', value: 'Feminino' },
           ]}
           selectedValue={gender}
           onValueChange={setGender}

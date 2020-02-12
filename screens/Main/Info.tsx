@@ -1,18 +1,19 @@
-import React from "react";
-import { Alert, Linking, Image, StatusBar, Platform } from "react-native";
-import styled from "styled-components/native";
+import React from 'react';
+import { Alert, Linking, Image, Platform } from 'react-native';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import styled from 'styled-components/native';
 import {
   FullScreenContainer,
   GradientButton,
   HeaderText,
   BackButton,
-  SolidButton
-} from "components";
-import { colors, fontWeight } from "../../constants";
+  SolidButton,
+} from 'components';
+import { colors, fontWeight } from '../../constants';
 
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
-  padding: ${StatusBar.currentHeight + 23}px 16px 32px 16px;
+  padding: ${getStatusBarHeight() + 23}px 16px 32px 16px;
   width: 100%;
 `;
 
@@ -42,55 +43,55 @@ const CenteredContainer = styled.View`
 export function Info({ navigation: { navigate } }) {
   const openVideo = () => {
     Alert.alert(
-      "Você será redirecionado",
-      "Você será redirecionado para fora do aplicativo para ver o vídeo.",
+      'Você será redirecionado',
+      'Você será redirecionado para fora do aplicativo para ver o vídeo.',
       [
         {
-          text: "Cancelar",
-          style: "cancel"
+          text: 'Cancelar',
+          style: 'cancel',
         },
         {
-          text: "Continuar",
+          text: 'Continuar',
           onPress: () =>
             Linking.openURL(
-              "https://www.youtube.com/watch?time_continue=20&v=GoK4lRjH2QI&feature=emb_logo"
-            )
-        }
+              'https://www.youtube.com/watch?time_continue=20&v=GoK4lRjH2QI&feature=emb_logo',
+            ),
+        },
       ],
-      { cancelable: true }
+      { cancelable: true },
     );
   };
   const downloadPdf = () => {
     Alert.alert(
-      "Baixar o PDF",
-      "O aplicativo Casas de Paz deseja baixar um arquivo no seu celular",
+      'Baixar o PDF',
+      'O aplicativo Casas de Paz deseja baixar um arquivo no seu celular',
       [
         {
-          text: "Cancelar",
-          style: "cancel"
+          text: 'Cancelar',
+          style: 'cancel',
         },
         {
-          text: "Continuar",
+          text: 'Continuar',
           onPress: () =>
             Linking.openURL(
-              "https://www.pibcuritiba.org.br/wp-content/uploads/2019/04/Apostila_CasasDePaz_Ver_01_MIOLO_IMPRESS%C3%83O.pdf"
-            )
-        }
+              'https://www.pibcuritiba.org.br/wp-content/uploads/2019/04/Apostila_CasasDePaz_Ver_01_MIOLO_IMPRESS%C3%83O.pdf',
+            ),
+        },
       ],
-      { cancelable: true }
+      { cancelable: true },
     );
   };
 
   return (
     <StyledFullScreenContainer>
       <FillScreenContainer>
-        {Platform.OS === "ios" && (
-          <BackButton onPress={() => navigate("Main")} />
+        {Platform.OS === 'ios' && (
+          <BackButton onPress={() => navigate('Main')} />
         )}
         <StyledHeaderText>Saiba Mais</StyledHeaderText>
         <StyledText>
           {
-            "Esse é um conteúdo adicional da casas de paz que explica como o programa funciona. "
+            'Esse é um conteúdo adicional da casas de paz que explica como o programa funciona. '
           }
         </StyledText>
         <CenteredContainer>
@@ -101,7 +102,7 @@ export function Info({ navigation: { navigate } }) {
             textColor={colors.white}
             icon={
               <Image
-                source={require("../../assets/images/ic_video.png")}
+                source={require('../../assets/images/ic_video.png')}
                 style={{ width: 24, height: 24 }}
               />
             }
@@ -113,7 +114,7 @@ export function Info({ navigation: { navigate } }) {
             color={colors.green}
             icon={
               <Image
-                source={require("../../assets/images/ic_download.png")}
+                source={require('../../assets/images/ic_download.png')}
                 style={{ width: 20, height: 24 }}
               />
             }

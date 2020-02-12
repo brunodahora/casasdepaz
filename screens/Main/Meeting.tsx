@@ -1,32 +1,28 @@
-import React from "react";
-import {
-  BackHandler,
-  StatusBar,
-  Platform,
-  KeyboardAvoidingView
-} from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components/native";
-import isEmpty from "lodash/isEmpty";
-import firebase from "firebase";
-import "firebase/firestore";
-import * as Sentry from "sentry-expo";
+import React from 'react';
+import { BackHandler, Platform, KeyboardAvoidingView } from 'react-native';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components/native';
+import isEmpty from 'lodash/isEmpty';
+import firebase from 'firebase';
+import 'firebase/firestore';
+import * as Sentry from 'sentry-expo';
 import {
   FullScreenContainer,
   GradientButton,
   HeaderText,
   TextInput,
-  BackButton
-} from "components";
-import { getMeetingData } from "store/selectors";
-import { colors, emailRegex } from "../../constants";
-import { UserContext, addCpfMask, addPhoneMask, addTimeMask } from "helpers";
-import { PlaceData } from "../../models";
-import { updatePlaceData, clearPlaceData } from "store/actionCreators";
+  BackButton,
+} from 'components';
+import { getMeetingData } from 'store/selectors';
+import { colors, emailRegex } from '../../constants';
+import { UserContext, addCpfMask, addPhoneMask, addTimeMask } from 'helpers';
+import { PlaceData } from '../../models';
+import { updatePlaceData, clearPlaceData } from 'store/actionCreators';
 
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
-  padding: ${StatusBar.currentHeight + 23}px 16px 0px 16px;
+  padding: ${getStatusBarHeight() + 23}px 16px 0px 16px;
   width: 100%;
 `;
 
@@ -61,14 +57,14 @@ type Errors = {
 export function Meeting({ navigation: { navigate, getParam }, route }) {
   const dispatch = useDispatch();
   const { name, time, owner, phone, email, partner } = useSelector(
-    getMeetingData
+    getMeetingData,
   );
   const { user } = React.useContext(UserContext);
   const [loading, setLoading] = React.useState(false);
   const [errors, setErrors] = React.useState<Errors>({});
 
-  const id = getParam("id", null);
-  const placeId = getParam("placeId", null);
+  const id = getParam('id', null);
+  const placeId = getParam('placeId', null);
 
   const updateData = (payload: PlaceData) => dispatch(updatePlaceData(payload));
 
@@ -101,7 +97,7 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
     setLoading(true);
     firebase
       .firestore()
-      .collection("places")
+      .collection('places')
       .add({
         // type,
         // address,
@@ -114,7 +110,7 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
         owner,
         phone,
         email,
-        partner
+        partner,
       })
       .then(place => {
         firebase
@@ -122,16 +118,16 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
           .collection(`users/${user.uid}/places`)
           .add({
             placeId: place.id,
-            name
+            name,
           })
           .then(() => {
             dispatch(clearPlaceData());
-            navigate("Main");
+            navigate('Main');
             setLoading(false);
           })
           .catch(error => {
             setLoading(false);
-            console.log("Error adding place to user: ", error);
+            console.log('Error adding place to user: ', error);
             Sentry.captureException(error);
           });
 
@@ -139,7 +135,7 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
           firebase
             .firestore()
             .collection(`users`)
-            .where("cpf", "==", partner.replace(/\D/g, ""))
+            .where('cpf', '==', partner.replace(/\D/g, ''))
             .get()
             .then(querySnapshot => {
               querySnapshot.forEach(doc => {
@@ -148,30 +144,30 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
                   .collection(`users/${doc.id}/places`)
                   .add({
                     placeId: place.id,
-                    name
+                    name,
                   })
                   .then(() => {
                     dispatch(clearPlaceData());
-                    navigate("Main");
+                    navigate('Main');
                     setLoading(false);
                   })
                   .catch(error => {
                     setLoading(false);
-                    console.log("Error adding place to partner: ", error);
+                    console.log('Error adding place to partner: ', error);
                     Sentry.captureException(error);
                   });
               });
             })
             .catch(error => {
               setLoading(false);
-              console.log("Error finding partner: ", error);
+              console.log('Error finding partner: ', error);
               Sentry.captureException(error);
             });
         }
       })
       .catch(error => {
         setLoading(false);
-        console.log("Error adding place: ", error);
+        console.log('Error adding place: ', error);
         Sentry.captureException(error);
       });
   };
@@ -180,7 +176,7 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
     setLoading(true);
     firebase
       .firestore()
-      .collection("places")
+      .collection('places')
       .doc(placeId)
       .set({
         // type,
@@ -194,7 +190,7 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
         owner,
         phone,
         email,
-        partner
+        partner,
       })
       .then(() => {
         firebase
@@ -203,11 +199,11 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
           .doc(id)
           .update({
             placeId,
-            name
+            name,
           })
           .then(() => {
             dispatch(clearPlaceData());
-            navigate("Main");
+            navigate('Main');
             setLoading(false);
           })
           .catch(error => {
@@ -220,7 +216,7 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
           firebase
             .firestore()
             .collection(`users`)
-            .where("cpf", "==", partner.replace(/\D/g, ""))
+            .where('cpf', '==', partner.replace(/\D/g, ''))
             .get()
             .then(querySnapshot => {
               querySnapshot.forEach(doc => {
@@ -230,18 +226,18 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
                   .doc(id)
                   .update({
                     placeId,
-                    name
+                    name,
                   })
                   .then(() => {
                     dispatch(clearPlaceData());
-                    navigate("Main");
+                    navigate('Main');
                     setLoading(false);
                   })
                   .catch(error => {
                     setLoading(false);
                     console.log(
                       `Error updating place ${placeId} to partner: `,
-                      error
+                      error,
                     );
                     Sentry.captureException(error);
                   });
@@ -249,7 +245,7 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
             })
             .catch(error => {
               setLoading(false);
-              console.log("Error finding partner: ", error);
+              console.log('Error finding partner: ', error);
               Sentry.captureException(error);
             });
         }
@@ -264,20 +260,20 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
   const onSubmit = () => {
     let errors: Errors = {};
 
-    if (name === "") errors.name = "Nome é obrigatório";
-    if (placeId && time === "") errors.time = "Horário é obrigatório";
-    if (placeId && owner === "") errors.owner = "Proprietário é obrigatório";
-    if (placeId && phone === "") errors.phone = "Telefone é obrigatório";
-    if (phone && phone.length < 14) errors.phone = "Número incompleto";
+    if (name === '') errors.name = 'Nome é obrigatório';
+    if (placeId && time === '') errors.time = 'Horário é obrigatório';
+    if (placeId && owner === '') errors.owner = 'Proprietário é obrigatório';
+    if (placeId && phone === '') errors.phone = 'Telefone é obrigatório';
+    if (phone && phone.length < 14) errors.phone = 'Número incompleto';
     if (email && !emailRegex.test(String(email).toLowerCase())) {
-      errors.email = "E-mail inválido";
+      errors.email = 'E-mail inválido';
     }
     if (partner && partner.length < 14)
-      errors.partner = "CPF da Dupla incompleto";
+      errors.partner = 'CPF da Dupla incompleto';
 
     if (isEmpty(errors)) {
       // navigate("Place");
-      placeId ? navigate("Place", { id, placeId }) : createPlace();
+      placeId ? navigate('Place', { id, placeId }) : createPlace();
     } else {
       setErrors(errors);
     }
@@ -285,14 +281,14 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
 
   const handleBackPress = () => {
     dispatch(clearPlaceData());
-    navigate("Main");
+    navigate('Main');
     return true;
   };
 
   React.useEffect(() => {
     const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      handleBackPress
+      'hardwareBackPress',
+      handleBackPress,
     );
     return () => backHandler.remove();
   });
@@ -301,14 +297,14 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
     if (placeId) {
       firebase
         .firestore()
-        .collection("places")
+        .collection('places')
         .doc(placeId)
         .get()
         .then(doc => {
           if (doc.exists) {
             dispatch(updatePlaceData(doc.data()));
           } else {
-            console.log("No such document!");
+            console.log('No such document!');
           }
         })
         .catch(error => {
@@ -322,9 +318,9 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
     <StyledFullScreenContainer>
       <ScrollViewContainer>
         <KeyboardAvoidingView behavior="padding" enabled>
-          {Platform.OS === "ios" && <BackButton onPress={handleBackPress} />}
+          {Platform.OS === 'ios' && <BackButton onPress={handleBackPress} />}
           <StyledHeaderText>
-            {placeId ? "Dados do encontro" : "Alvo de fé"}
+            {placeId ? 'Dados do encontro' : 'Alvo de fé'}
           </StyledHeaderText>
           <TextInput
             label="Nome do local"
@@ -386,7 +382,7 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
       ) : (
         <GradientButton
           onPress={onSubmit}
-          title={placeId ? "Continuar" : "Cadastrar"}
+          title={placeId ? 'Continuar' : 'Cadastrar'}
           colors={colors.gradient}
           textColor={colors.white}
         />

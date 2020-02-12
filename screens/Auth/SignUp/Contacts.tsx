@@ -1,25 +1,25 @@
-import React from "react";
-import { Image, StatusBar } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components/native";
-import isEmpty from "lodash/isEmpty";
+import React from 'react';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components/native';
+import isEmpty from 'lodash/isEmpty';
 import {
   FullScreenContainer,
   GradientButton,
   HeaderText,
   TextInput,
   Circle,
-  BackButton
-} from "components";
-import { addPhoneMask } from "helpers";
-import { getContactsData } from "store/selectors";
-import { updateSignUpData } from "store/actionCreators";
-import { SignUpData } from "../../../models";
-import { colors, emailRegex } from "../../../constants";
+  BackButton,
+} from 'components';
+import { addPhoneMask } from 'helpers';
+import { getContactsData } from 'store/selectors';
+import { updateSignUpData } from 'store/actionCreators';
+import { SignUpData } from '../../../models';
+import { colors, emailRegex } from '../../../constants';
 
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
-  padding: ${StatusBar.currentHeight + 23}px 16px 32px 16px;
+  padding: ${getStatusBarHeight() + 23}px 16px 32px 16px;
   width: 100%;
 `;
 
@@ -66,15 +66,15 @@ export function Contacts({ navigation: { navigate } }) {
   const onSubmit = () => {
     let errors: Errors = {};
 
-    if (email === "") errors.email = "Email é obrigatório";
-    if (phone === "") errors.phone = "Telefone é obrigatório";
-    if (phone.length < 14) errors.phone = "Número incompleto";
+    if (email === '') errors.email = 'Email é obrigatório';
+    if (phone === '') errors.phone = 'Telefone é obrigatório';
+    if (phone.length < 14) errors.phone = 'Número incompleto';
     if (!emailRegex.test(String(email).toLowerCase())) {
-      errors.email = "E-mail inválido";
+      errors.email = 'E-mail inválido';
     }
 
     if (isEmpty(errors)) {
-      navigate("MoreInfo");
+      navigate('MoreInfo');
     } else {
       setErrors(errors);
     }
@@ -83,7 +83,7 @@ export function Contacts({ navigation: { navigate } }) {
   return (
     <StyledFullScreenContainer>
       <FillScreenContainer>
-        <BackButton onPress={() => navigate("AboutYou")} />
+        <BackButton onPress={() => navigate('AboutYou')} />
         <StyledHeaderText>Seus contatos</StyledHeaderText>
         <TextInput
           label="Email"

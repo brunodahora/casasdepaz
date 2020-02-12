@@ -1,12 +1,13 @@
-import React from "react";
-import { Image, StatusBar } from "react-native";
-import styled from "styled-components/native";
-import { FullScreenContainer, GradientButton, HeaderText } from "components";
-import { colors, fontWeight } from "../../constants";
+import React from 'react';
+import { Image } from 'react-native';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import styled from 'styled-components/native';
+import { FullScreenContainer, GradientButton, HeaderText } from 'components';
+import { colors, fontWeight } from '../../constants';
 
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
-  padding: ${StatusBar.currentHeight + 23}px 16px 32px 16px;
+  padding: ${getStatusBarHeight() + 23}px 16px 32px 16px;
   width: 100%;
 `;
 
@@ -44,18 +45,18 @@ export function Success({ navigation: { navigate } }) {
         <StyledHeaderText>Perfil criado com sucesso</StyledHeaderText>
         <StyledText>
           {
-            "Bem-vindo ao aplicativo da campanha Casas de Paz.\nNele você pode cadastrar os locais e acompanhar os seus encontros.\nSe quiser saber mais, clique no botão na próxima tela."
+            'Bem-vindo ao aplicativo da campanha Casas de Paz.\nNele você pode cadastrar os locais e acompanhar os seus encontros.\nSe quiser saber mais, clique no botão na próxima tela.'
           }
         </StyledText>
         <CenteredContainer>
           <Image
-            source={require("assets/images/ic_success.png")}
+            source={require('assets/images/ic_success.png')}
             style={{ width: 200, height: 200 }}
           />
         </CenteredContainer>
       </FillScreenContainer>
       <GradientButton
-        onPress={() => navigate("Main")}
+        onPress={() => navigate('Main')}
         title="Concluir"
         colors={colors.gradient}
         textColor={colors.white}
