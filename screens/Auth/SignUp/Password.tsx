@@ -160,7 +160,7 @@ export function Password({
     <StyledFullScreenContainer>
       <FillScreenContainer>
         <BackButton onPress={() => navigate('MoreInfo')} />
-        <StyledHeaderText>Agora uma senha</StyledHeaderText>
+        <StyledHeaderText>Cadastrar senha</StyledHeaderText>
         <TextInput
           label="Senha"
           value={password}
