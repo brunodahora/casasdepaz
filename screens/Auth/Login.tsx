@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import firebase from 'firebase';
 import * as Sentry from 'sentry-expo';
@@ -10,6 +10,7 @@ import {
   GradientButton,
   HeaderText,
   TextInput,
+  BackButton,
 } from 'components';
 import { UserContext } from 'helpers';
 import { colors } from '../../constants';
@@ -83,9 +84,12 @@ export function Login({ navigation: { navigate } }) {
       );
   };
 
+  const handleBackPress = () => navigate('Initial');
+
   return (
     <StyledFullScreenContainer>
       <FillScreenContainer>
+        {Platform.OS === 'ios' && <BackButton onPress={handleBackPress} />}
         <StyledHeaderText>Log In</StyledHeaderText>
         <TextInput
           label="E-mail"

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BackHandler } from 'react-native';
+import { BackHandler, Platform } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
@@ -10,6 +10,7 @@ import {
   HeaderText,
   TextInput,
   Circle,
+  BackButton,
 } from 'components';
 import { getAboutYouData } from 'store/selectors';
 import { colors } from '../../../constants';
@@ -100,6 +101,7 @@ export function AboutYou({ navigation: { navigate, goBack } }) {
   return (
     <StyledFullScreenContainer>
       <FillScreenContainer>
+        {Platform.OS === 'ios' && <BackButton onPress={handleBackPress} />}
         <StyledHeaderText>Sobre Você</StyledHeaderText>
         <TextInput
           label="Nome"
