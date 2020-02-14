@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import isEmpty from 'lodash/isEmpty';
 import firebase from 'firebase';
 import 'firebase/firestore';
-import * as Sentry from 'sentry-expo';
+import * as Sentry from '../../sentry';
 import {
   FullScreenContainer,
   GradientButton,
@@ -177,7 +177,7 @@ export function Profile({
     <StyledFullScreenContainer>
       <ScrollViewContainer>
         <KeyboardAvoidingView behavior="padding" enabled>
-          {Platform.OS === 'ios' && (
+          {Platform.OS !== 'Android' && (
             <BackButton onPress={() => navigate('MoreInfo')} />
           )}
           <StyledHeaderText>Perfil</StyledHeaderText>

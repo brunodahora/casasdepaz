@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import firebase from 'firebase';
-import * as Sentry from 'sentry-expo';
+import * as Sentry from '../../sentry';
 import styled from 'styled-components/native';
 import { FullScreenContainer, GradientButton, SolidButton } from 'components';
 import { UserContext } from 'helpers';

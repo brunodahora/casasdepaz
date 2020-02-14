@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 import isEmpty from 'lodash/isEmpty';
 import firebase from 'firebase';
 import 'firebase/firestore';
-import * as Sentry from 'sentry-expo';
+import * as Sentry from '../../sentry';
 import {
   FullScreenContainer,
   GradientButton,
@@ -318,7 +318,9 @@ export function Meeting({ navigation: { navigate, getParam }, route }) {
     <StyledFullScreenContainer>
       <ScrollViewContainer>
         <KeyboardAvoidingView behavior="padding" enabled>
-          {Platform.OS === 'ios' && <BackButton onPress={handleBackPress} />}
+          {Platform.OS !== 'Android' && (
+            <BackButton onPress={handleBackPress} />
+          )}
           <StyledHeaderText>
             {placeId ? 'Dados do encontro' : 'Alvo de fé'}
           </StyledHeaderText>

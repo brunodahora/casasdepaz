@@ -1415,6 +1415,16 @@
     "@sentry/utils" "5.11.1"
     tslib "^1.9.3"
 
+"@sentry/browser@^5.12.1":
+  version "5.12.1"
+  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-5.12.1.tgz#dc1f268595269fb7277f55eb625c7e92d76dc01b"
+  integrity sha512-Zl7VdppUxctyaoqMSEhnDJp2rrupx8n8N2n3PSooH74yhB2Z91nt84mouczprBsw3JU1iggGyUw9seRFzDI1hw==
+  dependencies:
+    "@sentry/core" "5.12.0"
+    "@sentry/types" "5.12.0"
+    "@sentry/utils" "5.12.0"
+    tslib "^1.9.3"
+
 "@sentry/cli@^1.48.0":
   version "1.49.0"
   resolved "https://registry.yarnpkg.com/@sentry/cli/-/cli-1.49.0.tgz#174152978acbe6023986a8fb0b247cf58b4653d8"
@@ -1438,6 +1448,17 @@
     "@sentry/utils" "5.11.1"
     tslib "^1.9.3"
 
+"@sentry/core@5.12.0":
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-5.12.0.tgz#d6380c4ef7beee5f418ac1d0e5be86a2de2af449"
+  integrity sha512-wY4rsoX71QsGpcs9tF+OxKgDPKzIFMRvFiSRcJoPMfhFsTilQ/CBMn/c3bDtWQd9Bnr/ReQIL6NbnIjUsPHA4Q==
+  dependencies:
+    "@sentry/hub" "5.12.0"
+    "@sentry/minimal" "5.12.0"
+    "@sentry/types" "5.12.0"
+    "@sentry/utils" "5.12.0"
+    tslib "^1.9.3"
+
 "@sentry/hub@5.11.2":
   version "5.11.2"
   resolved "https://registry.yarnpkg.com/@sentry/hub/-/hub-5.11.2.tgz#a3b7ec27cd4cea2cddd75c372fbf1b4bc04c6aae"
@@ -1445,6 +1466,15 @@
   dependencies:
     "@sentry/types" "5.11.0"
     "@sentry/utils" "5.11.1"
+    tslib "^1.9.3"
+
+"@sentry/hub@5.12.0":
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/@sentry/hub/-/hub-5.12.0.tgz#5e8c8f249f5bdbeb8cc4ec02c2ccc53a67f2cc02"
+  integrity sha512-3k7yE8BEVJsKx8mR4LcI4IN0O8pngmq44OcJ/fRUUBAPqsT38jsJdP2CaWhdlM1jiNUzUDB1ktBv6/lY+VgcoQ==
+  dependencies:
+    "@sentry/types" "5.12.0"
+    "@sentry/utils" "5.12.0"
     tslib "^1.9.3"
 
 "@sentry/integrations@^5.11.1", "@sentry/integrations@^5.5.0":
@@ -1465,6 +1495,15 @@
     "@sentry/types" "5.11.0"
     tslib "^1.9.3"
 
+"@sentry/minimal@5.12.0":
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/@sentry/minimal/-/minimal-5.12.0.tgz#2611e2aa520c1edb7999e6de51bd65ec66341757"
+  integrity sha512-fk73meyz4k4jCg9yzbma+WkggsfEIQWI2e2TWfYsRGcrV3RnlSrXyM4D91/A8Bjx10SNezHPUFHjasjlHXOkyA==
+  dependencies:
+    "@sentry/hub" "5.12.0"
+    "@sentry/types" "5.12.0"
+    tslib "^1.9.3"
+
 "@sentry/react-native@^1.0.0":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@sentry/react-native/-/react-native-1.2.2.tgz#1452db82efc3f6b7464a1986174e71d4e893bd91"
@@ -1482,12 +1521,25 @@
   resolved "https://registry.yarnpkg.com/@sentry/types/-/types-5.11.0.tgz#40f0f3174362928e033ddd9725d55e7c5cb7c5b6"
   integrity sha512-1Uhycpmeo1ZK2GLvrtwZhTwIodJHcyIS6bn+t4IMkN9MFoo6ktbAfhvexBDW/IDtdLlCGJbfm8nIZerxy0QUpg==
 
+"@sentry/types@5.12.0":
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-5.12.0.tgz#5367e53c74261beea01502e3f7b6f3d822682a31"
+  integrity sha512-aZbBouBLrKB8wXlztriIagZNmsB+wegk1Jkl6eprqRW/w24Sl/47tiwH8c5S4jYTxdAiJk+SAR10AAuYmIN3zg==
+
 "@sentry/utils@5.11.1", "@sentry/utils@^5.11.1":
   version "5.11.1"
   resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-5.11.1.tgz#aa19fcc234cf632257b2281261651d2fac967607"
   integrity sha512-O0Zl4R2JJh8cTkQ8ZL2cDqGCmQdpA5VeXpuBbEl1v78LQPkBDISi35wH4mKmLwMsLBtTVpx2UeUHBj0KO5aLlA==
   dependencies:
     "@sentry/types" "5.11.0"
+    tslib "^1.9.3"
+
+"@sentry/utils@5.12.0":
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-5.12.0.tgz#62967f934a3ee6d21472eac0219084e37225933e"
+  integrity sha512-fYUadGLbfTCbs4OG5hKCOtv2jrNE4/8LHNABy9DwNJ/t5DVtGqWAZBnxsC+FG6a3nVqCpxjFI9AHlYsJ2wsf7Q==
+  dependencies:
+    "@sentry/types" "5.12.0"
     tslib "^1.9.3"
 
 "@sentry/wizard@^1.0.2":
@@ -3625,7 +3677,7 @@ https-proxy-agent@^3.0.0:
     agent-base "^4.3.0"
     debug "^3.1.0"
 
-hyphenate-style-name@^1.0.2, hyphenate-style-name@^1.0.3:
+hyphenate-style-name@^1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.0.3.tgz#097bb7fa0b8f1a9cf0bd5c734cf95899981a9b48"
   integrity sha512-EcuixamT82oplpoJ2XU4pDtKGWQ7b00CD9f1ug9IaQ3p1bkHMiKCZ9ut9QDI6qsa6cpUuB+A/I+zLtdNK4n2DQ==
@@ -3703,10 +3755,10 @@ ini@~1.3.0:
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
   integrity sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
 
-inline-style-prefixer@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/inline-style-prefixer/-/inline-style-prefixer-5.1.0.tgz#cb63195f9456dcda25cf59743e45c4d9815b0811"
-  integrity sha512-giteQHPMrApQOSjNSjteO5ZGSGMRf9gas14fRy2lg2buSc1nRnj6o6xuNds5cMTKrkncyrTu3gJn/yflFMVdmg==
+inline-style-prefixer@^5.0.3:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/inline-style-prefixer/-/inline-style-prefixer-5.1.2.tgz#e5a5a3515e25600e016b71e39138971228486c33"
+  integrity sha512-PYUF+94gDfhy+LsQxM0g3d6Hge4l1pAqOSOiZuHWzMvQEGsbRQ/ck2WioLqrY2ZkHyPgVUXxn+hrkF7D6QUGbA==
   dependencies:
     css-in-js-utils "^2.0.0"
 
@@ -5567,18 +5619,18 @@ react-native-view-shot@3.0.2:
   resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-3.0.2.tgz#daccaec5b8038a680b17533ff7e72876e68c7d0d"
   integrity sha512-JZOkGo2jzSX2b7N6N2uDr0wQjSz+QmBtY8jzeo0XJY6bLOfaY5nmWyYxDmDRoSpKiFkGTCkyhUqNnjo6lXOtEw==
 
-react-native-web@~0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.12.0.tgz#6145c6d4ae9e52191f96927d3d0aad363d1dc17f"
-  integrity sha512-O7Jb4XN8ficbCDIj6fOx+dVqh6jswuxM1Q+W3Q+iTET/pFCQ8jGFOKkjW0WoO7IFjHGuIwrqC3JzzRaZbDMu0Q==
+react-native-web@~0.11.7:
+  version "0.11.7"
+  resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.11.7.tgz#d173d5a9b58db23b6d442c4bc4c81e9939adac23"
+  integrity sha512-w1KAxX2FYLS2GAi3w3BnEZg/IUu7FdgHnLmFKHplRnHMV3u1OPB2EVA7ndNdfu7ds4Rn2OZjSXoNh6F61g3gkA==
   dependencies:
     array-find-index "^1.0.2"
     create-react-class "^15.6.2"
     debounce "^1.2.0"
     deep-assign "^3.0.0"
     fbjs "^1.0.0"
-    hyphenate-style-name "^1.0.3"
-    inline-style-prefixer "^5.1.0"
+    hyphenate-style-name "^1.0.2"
+    inline-style-prefixer "^5.0.3"
     normalize-css-color "^1.0.2"
     prop-types "^15.6.0"
     react-timer-mixin "^0.13.4"

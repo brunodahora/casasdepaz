@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 import isEmpty from 'lodash/isEmpty';
 import firebase from 'firebase';
 import 'firebase/firestore';
-import * as Sentry from 'sentry-expo';
+import * as Sentry from '../../../sentry';
 import {
   FullScreenContainer,
   GradientButton,

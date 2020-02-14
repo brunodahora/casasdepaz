@@ -101,7 +101,7 @@ export function AboutYou({ navigation: { navigate, goBack } }) {
   return (
     <StyledFullScreenContainer>
       <FillScreenContainer>
-        {Platform.OS === 'ios' && <BackButton onPress={handleBackPress} />}
+        {Platform.OS !== 'Android' && <BackButton onPress={handleBackPress} />}
         <StyledHeaderText>Sobre Você</StyledHeaderText>
         <TextInput
           label="Nome"

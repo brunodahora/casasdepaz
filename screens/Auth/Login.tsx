@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert, Platform } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import firebase from 'firebase';
-import * as Sentry from 'sentry-expo';
+import * as Sentry from '../../sentry';
 import styled from 'styled-components/native';
 import {
   FullScreenContainer,
@@ -89,7 +89,7 @@ export function Login({ navigation: { navigate } }) {
   return (
     <StyledFullScreenContainer>
       <FillScreenContainer>
-        {Platform.OS === 'ios' && <BackButton onPress={handleBackPress} />}
+        {Platform.OS !== 'Android' && <BackButton onPress={handleBackPress} />}
         <StyledHeaderText>Log In</StyledHeaderText>
         <TextInput
           label="E-mail"

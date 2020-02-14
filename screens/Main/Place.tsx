@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 import isEmpty from 'lodash/isEmpty';
 import firebase from 'firebase';
 import 'firebase/firestore';
-import * as Sentry from 'sentry-expo';
+import * as Sentry from '../../sentry';
 import {
   FullScreenContainer,
   GradientButton,
@@ -303,7 +303,9 @@ export function Place({ navigation: { navigate, getParam } }) {
     <StyledFullScreenContainer>
       <ScrollViewContainer>
         <KeyboardAvoidingView behavior="padding" enabled>
-          {Platform.OS === 'ios' && <BackButton onPress={handleBackPress} />}
+          {Platform.OS !== 'Android' && (
+            <BackButton onPress={handleBackPress} />
+          )}
           <StyledHeaderText>Dados do encontro</StyledHeaderText>
           <Picker
             label="Tipo de local"
