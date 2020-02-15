@@ -33,7 +33,7 @@ export function Initial({ navigation: { navigate }, route }) {
     <ImageBackground
       source={
         Platform.OS === "web"
-          ? require("../../assets/images/color_background_web.jpg")
+          ? require("../../assets/images/color_background_web.png")
           : require("../../assets/images/color_background.png")
       }
       style={{ width: "100%", height: "100%" }}
