@@ -1,18 +1,23 @@
-import React from 'react';
-import { Image, TouchableOpacity } from 'react-native';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
-import firebase from 'firebase';
-import * as Sentry from '../../sentry';
-import styled from 'styled-components/native';
-import { FullScreenContainer, GradientButton, SolidButton } from 'components';
-import { UserContext } from 'helpers';
-import { colors } from '../../constants';
-import { NavigationProps } from '../../models';
-import { PlacesList } from 'components/PlacesList';
+import React from "react";
+import { Image, TouchableOpacity } from "react-native";
+import { getStatusBarHeight } from "react-native-status-bar-height";
+import firebase from "firebase";
+import * as Sentry from "../../sentry";
+import styled from "styled-components/native";
+import {
+  FullScreenContainer,
+  GradientButton,
+  SolidButton,
+  SmartAppBanner
+} from "components";
+import { UserContext } from "helpers";
+import { colors } from "../../constants";
+import { NavigationProps } from "../../models";
+import { PlacesList } from "components/PlacesList";
 
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
-  padding: ${getStatusBarHeight() + 23}px 0px 16px 0px;
+  padding: ${getStatusBarHeight()}px 0px 16px 0px;
   width: 100%;
 `;
 
@@ -28,8 +33,7 @@ const StyledHeader = styled.View`
   justify-content: space-between;
   margin-bottom: 32px;
   width: 100%;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding: 23px; 16px; 0px; 16px;
 `;
 
 const StyledNameText = styled.Text`
@@ -69,7 +73,7 @@ const StyledActivityIndicator = styled.ActivityIndicator`
 
 export function Main({ navigation }: NavigationProps): JSX.Element {
   const {
-    user: { uid, name, surname },
+    user: { uid, name, surname }
   } = React.useContext(UserContext);
   const [loading, setLoading] = React.useState(true);
   const [places, setPlaces] = React.useState([]);
@@ -83,7 +87,7 @@ export function Main({ navigation }: NavigationProps): JSX.Element {
       .then(querySnapshot => {
         const userPlaces = [];
         querySnapshot.forEach(doc =>
-          userPlaces.push({ id: doc.id, ...doc.data() }),
+          userPlaces.push({ id: doc.id, ...doc.data() })
         );
         setPlaces(userPlaces);
         setLoading(false);
@@ -94,27 +98,28 @@ export function Main({ navigation }: NavigationProps): JSX.Element {
         Sentry.captureException(error);
       });
   };
-  navigation.addListener('willFocus', fetchPlaces);
+  navigation.addListener("willFocus", fetchPlaces);
 
   return (
     <StyledFullScreenContainer>
+      <SmartAppBanner />
       <StyledHeader>
         <StyledNameText>{`${name} ${surname}`}</StyledNameText>
-        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
           <Image
-            source={require('assets/images/ic_gear.png')}
+            source={require("assets/images/ic_gear.png")}
             style={{ width: 24, height: 24, tintColor: colors.green }}
           />
         </TouchableOpacity>
       </StyledHeader>
       <StyledSubHeader>
         <Image
-          source={require('assets/images/ic_casasdepaz.png')}
+          source={require("assets/images/ic_casasdepaz.png")}
           style={{
             width: 24,
             height: 24,
             marginRight: 18,
-            tintColor: colors.red,
+            tintColor: colors.red
           }}
         />
         <StyledTitle>Casas de paz</StyledTitle>
@@ -127,14 +132,14 @@ export function Main({ navigation }: NavigationProps): JSX.Element {
       </FillScreenContainer>
       <StyledHorizontalPadding>
         <GradientButton
-          onPress={() => navigation.navigate('Meeting')}
+          onPress={() => navigation.navigate("Meeting")}
           title="+ Cadastrar alvos de fé"
           colors={colors.gradient}
           textColor={colors.white}
         />
         <SolidButton
           transparent
-          onPress={() => navigation.navigate('Info')}
+          onPress={() => navigation.navigate("Info")}
           title="Saiba mais"
           color={colors.green}
         />

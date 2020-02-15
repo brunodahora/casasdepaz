@@ -7,3 +7,4 @@ export { TextInput } from "./TextInput";
 export { Circle } from "./Circle";
 export { Picker } from "./Picker";
 export { BackButton } from "./BackButton";
+export { SmartAppBanner } from "./SmartAppBanner";
