@@ -30,7 +30,7 @@
     "redux": "^4.0.5",
     "sentry-expo": "^2.0.1",
     "styled-components": "^5.0.0",
-    "yarn": "^1.21.1"
+    "yarn": "^1.22.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
