@@ -35,13 +35,15 @@ export const SmartAppBanner = () => {
 
   if (Platform.OS !== "web") return null;
 
+  console.log(window.navigator.userAgent);
+
   let os = null;
-  if (/android/.test(window.navigator.userAgent.toLowerCase())) {
+  if (/Android/.test(window.navigator.userAgent)) {
     os = "android";
   } else if (/iPad|iPhone|iPod/.test(window.navigator.userAgent)) {
     os = "ios";
   }
-  if (!os) return null;
+  if (os !== "android") return null;
 
   const platform = {
     android: {
@@ -68,11 +70,9 @@ export const SmartAppBanner = () => {
       <StyledContent>
         <StyledHeader>Casas de Paz</StyledHeader>
         <StyledSubHeader>PIB Curitiba</StyledSubHeader>
-        <StyledSubHeader>{`GET - On the ${platform["android"].storeName}`}</StyledSubHeader>
+        <StyledSubHeader>{`GET - On the ${platform[os].storeName}`}</StyledSubHeader>
       </StyledContent>
-      <TouchableOpacity
-        onPress={() => Linking.openURL(platform["android"].link)}
-      >
+      <TouchableOpacity onPress={() => Linking.openURL(platform[os].link)}>
         <StyledCFA>Ver</StyledCFA>
       </TouchableOpacity>
     </StyledContainer>
