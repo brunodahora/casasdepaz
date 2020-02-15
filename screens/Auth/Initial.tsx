@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, ImageBackground, View } from "react-native";
+import { Image, ImageBackground, View, Platform } from "react-native";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import styled from "styled-components/native";
 import isEmpty from "lodash/isEmpty";
@@ -9,6 +9,7 @@ import { colors } from "../../constants";
 
 const StyledContainer = styled(View)`
   flex: 1;
+  align-items: center;
   padding: ${getStatusBarHeight() + 23}px 16px 32px 16px;
 `;
 
@@ -30,7 +31,11 @@ export function Initial({ navigation: { navigate }, route }) {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/color_background.png")}
+      source={
+        Platform.OS === "web"
+          ? require("../../assets/images/color_background_web.jpg")
+          : require("../../assets/images/color_background.png")
+      }
       style={{ width: "100%", height: "100%" }}
     >
       <StyledAppBannerContainer>

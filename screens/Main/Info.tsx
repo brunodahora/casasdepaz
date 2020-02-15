@@ -65,9 +65,7 @@ export function Info({ navigation: { navigate } }) {
   };
   const openVideo = () => {
     if (Platform.OS === "web") {
-      Linking.openURL(
-        "https://www.youtube.com/watch?time_continue=20&v=GoK4lRjH2QI&feature=emb_logo"
-      );
+      Linking.openURL("https://www.youtube.com/watch?v=Xf7UYY9Nopw");
     } else {
       Alert.alert(
         "Você será redirecionado",
@@ -80,9 +78,7 @@ export function Info({ navigation: { navigate } }) {
           {
             text: "Continuar",
             onPress: () =>
-              Linking.openURL(
-                "https://www.youtube.com/watch?time_continue=20&v=GoK4lRjH2QI&feature=emb_logo"
-              )
+              Linking.openURL("https://www.youtube.com/watch?v=Xf7UYY9Nopw")
           }
         ],
         { cancelable: true }
@@ -91,9 +87,7 @@ export function Info({ navigation: { navigate } }) {
   };
   const downloadPdf = () => {
     if (Platform.OS === "web") {
-      Linking.openURL(
-        "https://www.pibcuritiba.org.br/wp-content/uploads/2019/04/Apostila_CasasDePaz_Ver_01_MIOLO_IMPRESS%C3%83O.pdf"
-      );
+      Linking.openURL("http://bit.ly/casadepazpdf");
     } else {
       Alert.alert(
         "Baixar o PDF",
@@ -105,10 +99,7 @@ export function Info({ navigation: { navigate } }) {
           },
           {
             text: "Continuar",
-            onPress: () =>
-              Linking.openURL(
-                "https://www.pibcuritiba.org.br/wp-content/uploads/2019/04/Apostila_CasasDePaz_Ver_01_MIOLO_IMPRESS%C3%83O.pdf"
-              )
+            onPress: () => Linking.openURL("http://bit.ly/casadepazpdf")
           }
         ],
         { cancelable: true }

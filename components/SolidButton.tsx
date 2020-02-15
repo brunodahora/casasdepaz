@@ -1,4 +1,5 @@
 import React from "react";
+import { Dimensions, Platform } from "react-native";
 import styled from "styled-components/native";
 
 type Props = {
@@ -9,8 +10,15 @@ type Props = {
   transparent?: boolean;
 };
 
-const StyledTouchableOpacity = styled.TouchableOpacity`
+const StyledContainer = styled.View`
   width: 100%;
+  align-items: center;
+`;
+
+const StyledTouchableOpacity = styled.TouchableOpacity`
+  width: ${Platform.OS === "web" && Dimensions.get("window").width > 500
+    ? "500px"
+    : "100%"};
   margin: 5px 0;
   padding: 18px;
   align-items: center;
@@ -30,12 +38,14 @@ const StyledText = styled.Text`
 `;
 
 export const SolidButton = ({ title, icon, ...otherProps }: Props) => (
-  <StyledTouchableOpacity {...otherProps}>
-    {icon}
-    <StyledText hasIcon={icon} {...otherProps}>
-      {title}
-    </StyledText>
-  </StyledTouchableOpacity>
+  <StyledContainer>
+    <StyledTouchableOpacity {...otherProps}>
+      {icon}
+      <StyledText hasIcon={icon} {...otherProps}>
+        {title}
+      </StyledText>
+    </StyledTouchableOpacity>
+  </StyledContainer>
 );
 SolidButton.defaultProps = {
   transparent: false

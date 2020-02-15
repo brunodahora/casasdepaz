@@ -33,7 +33,7 @@ const StyledCFA = styled.Text`
 export const SmartAppBanner = () => {
   const [showBanner, toggleShowBanner] = React.useState(true);
 
-  if (Platform.OS !== "web") return null;
+  if (Platform.OS !== "web" || !showBanner) return null;
 
   console.log(window.navigator.userAgent);
 
@@ -55,14 +55,12 @@ export const SmartAppBanner = () => {
 
   return (
     <StyledContainer>
-      {showBanner && (
-        <TouchableOpacity onPress={() => toggleShowBanner(false)}>
-          <Image
-            source={require("assets/images/ic_close.png")}
-            style={{ width: 24, height: 24 }}
-          />
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity onPress={() => toggleShowBanner(false)}>
+        <Image
+          source={require("assets/images/ic_close.png")}
+          style={{ width: 24, height: 24 }}
+        />
+      </TouchableOpacity>
       <Image
         source={require("assets/images/icon.png")}
         style={{ marginLeft: 16, marginRight: 16, width: 48, height: 48 }}

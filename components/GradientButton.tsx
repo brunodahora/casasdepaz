@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image } from "react-native";
+import { Dimensions, Platform } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import styled from "styled-components/native";
 
@@ -12,7 +12,9 @@ type Props = {
 };
 
 const StyledTouchableOpacity = styled.TouchableOpacity`
-  width: 100%;
+  width: ${Platform.OS === "web" && Dimensions.get("window").width > 500
+    ? "500px"
+    : "100%"};
   align-items: center;
   justify-content: center;
 `;
@@ -25,7 +27,9 @@ const StyledText = styled.Text`
 `;
 
 const StyledLinearGradient = styled(LinearGradient)`
-  width: 100%;
+  width: ${Platform.OS === "web" && Dimensions.get("window").width > 500
+    ? "500px"
+    : "100%"};
   margin: 5px 0;
   padding: 18px;
   align-items: center;
