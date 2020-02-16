@@ -10,12 +10,14 @@ const StyledContainer = styled.View`
   align-items: center;
   padding: 8px;
 `;
+
 const StyledContent = styled.View`
   display: flex;
   flex: 1;
   flex-direction: column;
   justify-content: center;
 `;
+
 const StyledHeader = styled.Text`
   font-size: 18px;
 `;
@@ -63,7 +65,13 @@ export const SmartAppBanner = () => {
       </TouchableOpacity>
       <Image
         source={require("assets/images/icon.png")}
-        style={{ marginLeft: 16, marginRight: 16, width: 48, height: 48 }}
+        style={{
+          marginLeft: 16,
+          marginRight: 16,
+          width: 48,
+          height: 48,
+          borderRadius: 3
+        }}
       />
       <StyledContent>
         <StyledHeader>Casas de Paz</StyledHeader>

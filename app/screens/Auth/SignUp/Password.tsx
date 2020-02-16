@@ -154,7 +154,7 @@ export function Password({
       errors.password = "Senha e confirmação diferentes";
       errors.confirmPassword = "Senha e confirmação diferentes";
     }
-    if (password.length) {
+    if (password.length < 6) {
       errors.password = "Senha deve conter pelo menos 6 caracteres";
       errors.confirmPassword = "Senha deve conter pelo menos 6 caracteres";
     }
