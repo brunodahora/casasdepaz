@@ -53,7 +53,7 @@ export const PlacesList = ({ places = [], navigate }: Props): JSX.Element => (
       places.map(({ id, name, placeId }) => (
         <StyledPlaceContainer
           key={id}
-          onPress={() => navigate("Meeting", { id, placeId })}
+          onPress={() => navigate("MeetingView", { id, placeId })}
         >
           <StyledPlaceTitle>{name}</StyledPlaceTitle>
         </StyledPlaceContainer>

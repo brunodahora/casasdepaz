@@ -1,22 +1,22 @@
-import React from 'react';
-import { BackHandler, Platform } from 'react-native';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components/native';
-import isEmpty from 'lodash/isEmpty';
+import React from "react";
+import { BackHandler, Platform } from "react-native";
+import { getStatusBarHeight } from "react-native-status-bar-height";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components/native";
+import isEmpty from "lodash/isEmpty";
 import {
   FullScreenContainer,
   GradientButton,
   HeaderText,
   TextInput,
   Circle,
-  BackButton,
-} from 'components';
-import { getAboutYouData } from 'store/selectors';
-import { colors } from '../../../constants';
-import { addCpfMask } from 'helpers';
-import { SignUpData } from '../../../models';
-import { updateSignUpData, clearSignUpData } from 'store/actionCreators';
+  BackButton
+} from "components";
+import { getAboutYouData } from "store/selectors";
+import { colors } from "../../../constants";
+import { addCpfMask } from "helpers";
+import { SignUpData } from "../../../models";
+import { updateSignUpData, clearSignUpData } from "store/actionCreators";
 
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
@@ -72,13 +72,13 @@ export function AboutYou({ navigation: { navigate, goBack } }) {
   const onSubmit = () => {
     let errors: Errors = {};
 
-    if (name === '') errors.name = 'Nome é obrigatório';
-    if (surname === '') errors.surname = 'Sobrenome é obrigatório';
-    if (cpf === '') errors.cpf = 'CPF é obrigatório';
-    if (cpf.length < 14) errors.cpf = 'CPF incompleto';
+    if (name === "") errors.name = "Nome é obrigatório";
+    if (surname === "") errors.surname = "Sobrenome é obrigatório";
+    if (cpf === "") errors.cpf = "CPF é obrigatório";
+    if (cpf.length < 14) errors.cpf = "CPF incompleto";
 
     if (isEmpty(errors)) {
-      navigate('Contacts');
+      navigate("Contacts");
     } else {
       setErrors(errors);
     }
@@ -86,14 +86,14 @@ export function AboutYou({ navigation: { navigate, goBack } }) {
 
   const handleBackPress = () => {
     dispatch(clearSignUpData());
-    navigate('Initial');
+    navigate("Initial");
     return true;
   };
 
   React.useEffect(() => {
     const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      handleBackPress,
+      "hardwareBackPress",
+      handleBackPress
     );
     return () => backHandler.remove();
   });
@@ -101,7 +101,7 @@ export function AboutYou({ navigation: { navigate, goBack } }) {
   return (
     <StyledFullScreenContainer>
       <FillScreenContainer>
-        {Platform.OS !== 'Android' && <BackButton onPress={handleBackPress} />}
+        {Platform.OS !== "android" && <BackButton onPress={handleBackPress} />}
         <StyledHeaderText>Sobre Você</StyledHeaderText>
         <TextInput
           label="Nome"

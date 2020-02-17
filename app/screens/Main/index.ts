@@ -1,5 +1,6 @@
 export { Main } from "./Main";
 export { Profile } from "./Profile";
-export { Meeting } from "./Meeting";
-export { Place } from "./Place";
+export { MeetingRegistration } from "./MeetingRegistration";
+export { PlaceRegistration } from "./PlaceRegistration";
 export { Info } from "./Info";
+export { MeetingView } from "./MeetingView";

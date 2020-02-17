@@ -30,10 +30,9 @@ const StyledHorizontalPadding = styled.View`
 const StyledHeader = styled.View`
   align-items: center;
   flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 32px;
   width: 100%;
-  padding: 23px; 16px; 0px; 16px;
+  justify-content: space-between;
+  padding: 23px 16px 32px 16px;
 `;
 
 const StyledNameText = styled.Text`
@@ -132,8 +131,8 @@ export function Main({ navigation }: NavigationProps): JSX.Element {
       </FillScreenContainer>
       <StyledHorizontalPadding>
         <GradientButton
-          onPress={() => navigation.navigate("Meeting")}
-          title="+ Cadastrar alvos de fé"
+          onPress={() => navigation.navigate("MeetingRegistration")}
+          title="+ Cadastrar casa de paz"
           colors={colors.gradient}
           textColor={colors.white}
         />

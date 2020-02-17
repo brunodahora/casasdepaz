@@ -39,6 +39,7 @@ const StyledLinearGradient = styled(LinearGradient)`
   shadow-radius: 6px;
   shadow-color: black;
   shadow-offset: 2px 2px;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.25);
   flex-direction: row;
 `;
 

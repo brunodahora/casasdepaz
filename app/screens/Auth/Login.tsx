@@ -93,7 +93,7 @@ export function Login({ navigation: { navigate } }) {
   return (
     <StyledFullScreenContainer>
       <FillScreenContainer>
-        {Platform.OS !== "Android" && <BackButton onPress={handleBackPress} />}
+        {Platform.OS !== "android" && <BackButton onPress={handleBackPress} />}
         <StyledHeaderText>Log In</StyledHeaderText>
         <TextInput
           label="E-mail"

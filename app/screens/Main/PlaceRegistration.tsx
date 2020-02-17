@@ -56,7 +56,7 @@ type Errors = {
   city?: string;
 };
 
-export function Place({ navigation: { navigate, getParam } }) {
+export function PlaceRegistration({ navigation: { navigate, getParam } }) {
   const dispatch = useDispatch();
   const {
     type,
@@ -244,7 +244,7 @@ export function Place({ navigation: { navigate, getParam } }) {
               querySnapshot.forEach(doc => {
                 firebase
                   .firestore()
-                  .collection(`users/${doc.id}/places`)
+                  .collection(`usePlaces/${doc.id}/places`)
                   .doc(id)
                   .update({
                     placeId,
@@ -300,11 +300,13 @@ export function Place({ navigation: { navigate, getParam } }) {
     }
   };
 
+  const handleBackPress = () => navigate("MeetingRegistration");
+
   return (
     <StyledFullScreenContainer>
       <ScrollViewContainer>
         <KeyboardAvoidingView behavior="padding" enabled>
-          {Platform.OS !== "Android" && (
+          {Platform.OS !== "android" && (
             <BackButton onPress={handleBackPress} />
           )}
           <StyledHeaderText>Dados do encontro</StyledHeaderText>

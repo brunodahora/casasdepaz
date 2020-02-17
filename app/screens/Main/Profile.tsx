@@ -1,22 +1,22 @@
-import React from 'react';
-import { Platform, KeyboardAvoidingView } from 'react-native';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
-import styled from 'styled-components/native';
-import isEmpty from 'lodash/isEmpty';
-import firebase from 'firebase';
-import 'firebase/firestore';
-import * as Sentry from '../../sentry';
+import React from "react";
+import { Platform, KeyboardAvoidingView } from "react-native";
+import { getStatusBarHeight } from "react-native-status-bar-height";
+import styled from "styled-components/native";
+import isEmpty from "lodash/isEmpty";
+import firebase from "firebase";
+import "firebase/firestore";
+import * as Sentry from "../../sentry";
 import {
   FullScreenContainer,
   GradientButton,
   HeaderText,
   TextInput,
   BackButton,
-  Picker,
-} from 'components';
-import { colors, emailRegex, fontWeight } from '../../constants';
-import { NavigationProps, SignUpData } from '../../models';
-import { UserContext, addCpfMask, addPhoneMask } from 'helpers';
+  Picker
+} from "components";
+import { colors, emailRegex, fontWeight } from "../../constants";
+import { NavigationProps, SignUpData } from "../../models";
+import { UserContext, addCpfMask, addPhoneMask } from "helpers";
 
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
@@ -78,13 +78,13 @@ type UserContextType = {
 };
 
 export function Profile({
-  navigation: { navigate },
+  navigation: { navigate }
 }: NavigationProps): JSX.Element {
   const userContext: UserContextType = React.useContext(UserContext);
   const [user, setUser] = React.useState({
     ...userContext.user,
     cpf: addCpfMask(userContext.user.cpf),
-    phone: addPhoneMask(userContext.user.phone),
+    phone: addPhoneMask(userContext.user.phone)
   });
   const [loading, setLoading] = React.useState(false);
 
@@ -99,7 +99,7 @@ export function Profile({
     phone,
     hasCellGroup,
     gender,
-    age,
+    age
   } = user;
   const updateUser = (prop: string) => (value: string | boolean) => {
     setUser({ ...user, [prop]: value });
@@ -121,39 +121,39 @@ export function Profile({
       uid,
       name,
       surname,
-      cpf: cpf.replace(/\D/g, ''),
+      cpf: cpf.replace(/\D/g, ""),
       email,
-      phone: phone.replace(/\D/g, ''),
+      phone: phone.replace(/\D/g, ""),
       hasCellGroup,
       gender,
-      age,
+      age
     };
     firebase
       .firestore()
-      .collection('users')
+      .collection("users")
       .doc(uid)
       .update(newUser);
     userContext.setUser(newUser);
     setLoading(false);
-    navigate('Main');
+    navigate("Main");
   };
 
   const onSubmit = () => {
     let errors: Errors = {};
 
-    if (name === '') errors.name = 'Nome é obrigatório';
-    if (surname === '') errors.surname = 'Sobrenome é obrigatório';
-    if (cpf === '') errors.cpf = 'CPF é obrigatório';
-    if (cpf && cpf.length < 14) errors.cpf = 'CPF incompleto';
-    if (email === '') errors.email = 'Email é obrigatório';
-    if (phone === '') errors.phone = 'Telefone é obrigatório';
-    if (phone.length < 14) errors.phone = 'Número incompleto';
+    if (name === "") errors.name = "Nome é obrigatório";
+    if (surname === "") errors.surname = "Sobrenome é obrigatório";
+    if (cpf === "") errors.cpf = "CPF é obrigatório";
+    if (cpf && cpf.length < 14) errors.cpf = "CPF incompleto";
+    if (email === "") errors.email = "Email é obrigatório";
+    if (phone === "") errors.phone = "Telefone é obrigatório";
+    if (phone.length < 14) errors.phone = "Número incompleto";
     if (!emailRegex.test(String(email).toLowerCase())) {
-      errors.email = 'E-mail inválido';
+      errors.email = "E-mail inválido";
     }
-    if (hasCellGroup === null) errors.hasCellGroup = 'Selecione uma opção';
-    if (gender === '') errors.gender = 'Selecione uma opção';
-    if (age === '') errors.age = 'Idade é obrigatório';
+    if (hasCellGroup === null) errors.hasCellGroup = "Selecione uma opção";
+    if (gender === "") errors.gender = "Selecione uma opção";
+    if (age === "") errors.age = "Idade é obrigatório";
 
     if (isEmpty(errors)) {
       saveUserOnFirebase();
@@ -168,7 +168,7 @@ export function Profile({
       .signOut()
       .then(() => {
         userContext.setUser({ ...user, clearUser: true });
-        navigate('Initial');
+        navigate("Initial");
       })
       .catch(error => Sentry.captureException(error));
   };
@@ -177,20 +177,20 @@ export function Profile({
     <StyledFullScreenContainer>
       <ScrollViewContainer>
         <KeyboardAvoidingView behavior="padding" enabled>
-          {Platform.OS !== 'Android' && (
-            <BackButton onPress={() => navigate('MoreInfo')} />
+          {Platform.OS !== "android" && (
+            <BackButton onPress={() => navigate("MoreInfo")} />
           )}
           <StyledHeaderText>Perfil</StyledHeaderText>
           <TextInput
             label="Nome"
             value={name}
-            onChangeText={updateUser('name')}
+            onChangeText={updateUser("name")}
             error={errors.name}
           />
           <TextInput
             label="Sobrenome"
             value={surname}
-            onChangeText={updateUser('surname')}
+            onChangeText={updateUser("surname")}
             error={errors.surname}
           />
           <TextInput
@@ -203,7 +203,7 @@ export function Profile({
           <TextInput
             label="Email"
             value={email}
-            onChangeText={updateUser('email')}
+            onChangeText={updateUser("email")}
             error={errors.email}
           />
           <TextInput
@@ -217,33 +217,33 @@ export function Profile({
           <Picker
             label="Participa de uma célula da PIB Curitiba?"
             error={errors.hasCellGroup}
-            placeholder={{ label: 'Selecione...', value: null }}
+            placeholder={{ label: "Selecione...", value: null }}
             options={[
-              { label: 'Sim', value: true },
-              { label: 'Não', value: false },
+              { label: "Sim", value: true },
+              { label: "Não", value: false }
             ]}
             selectedValue={hasCellGroup}
-            onValueChange={updateUser('hasCellGroup')}
+            onValueChange={updateUser("hasCellGroup")}
           />
           <Picker
             label="Sexo"
             error={errors.gender}
-            placeholder={{ label: 'Selecione...', value: '' }}
+            placeholder={{ label: "Selecione...", value: "" }}
             options={[
-              { label: 'Masculino', value: 'Masculino' },
-              { label: 'Feminino', value: 'Feminino' },
+              { label: "Masculino", value: "Masculino" },
+              { label: "Feminino", value: "Feminino" }
             ]}
             selectedValue={gender}
-            onValueChange={updateUser('gender')}
+            onValueChange={updateUser("gender")}
           />
           <TextInput
             label="Idade"
             value={age}
-            onChangeText={updateUser('age')}
+            onChangeText={updateUser("age")}
             keyboardType="number-pad"
             error={errors.age}
           />
-          <StyledTouchableOpacity onPress={() => logout()}>
+          <StyledTouchableOpacity onPress={logout}>
             <StyledLogout>Sair</StyledLogout>
             <StyledHR />
           </StyledTouchableOpacity>
