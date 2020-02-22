@@ -10,7 +10,8 @@ export const colors = {
   red: "#DE1520",
   purple: "#7F39F3",
   transparentGreen: "#1944114D",
-  white: "#fff"
+  white: "#fff",
+  transparentBlack: "#000000BF"
 };
 
 export const fontWeight = {

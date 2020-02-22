@@ -11,3 +11,4 @@ export { SmartAppBanner } from "./SmartAppBanner";
 export { MeetingItem } from "./MeetingItem";
 export { PlacesList } from "./PlacesList";
 export { ParticipantsList } from "./ParticipantsList";
+export { WarningModal } from "./WarningModal";

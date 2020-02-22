@@ -10,8 +10,10 @@ import {
   BackButton,
   GradientButton,
   MeetingItem,
-  ParticipantsList
+  ParticipantsList,
+  WarningModal
 } from "components";
+import { UserContext } from "helpers";
 import { colors, fontWeight } from "../../constants";
 
 const StyledActivityIndicator = styled.ActivityIndicator`
@@ -87,16 +89,19 @@ const StyledGradientButtonContainer = styled.View`
 export const MeetingView = ({ navigation: { navigate, getParam } }) => {
   const id = getParam("id", null);
   const placeId = getParam("placeId", null);
+  const { user: { uid } } = React.useContext(UserContext);
+
+  const db = firebase.firestore();
 
   const [place, setPlace] = React.useState(null);
+  const [showDeleteModal, toggleDeleteModal] = React.useState(false);
 
   React.useEffect(() => {
-    firebase
-      .firestore()
+    db
       .collection("places")
       .doc(placeId)
       .get()
-      .then(doc => {
+      .then(doc => {40
         if (doc.exists) {
           setPlace(doc.data());
           StyledSubHeader;
@@ -125,9 +130,21 @@ export const MeetingView = ({ navigation: { navigate, getParam } }) => {
   } = place;
 
   const handleBackPress = () => navigate("Main");
-  const promptDelete = () => {
-    console.log("Delete");
-  };
+  const openDeleteModal = () => toggleDeleteModal(true);
+  const closeDeleteModal = () => toggleDeleteModal(false);
+  const deletePlace = () => {
+    db.collection(`users/${uid}/places`).doc(id).delete().then(() => {
+        db.collection("places").doc(placeId).delete().then(() => {
+            navigate("Main");
+        }).catch((error) => {
+          console.error("Error removing place: ", error);
+          Sentry.captureException(error);
+        });
+      }).catch((error) => {
+        console.error("Error removing place from user: ", error);
+        Sentry.captureException(error);
+    });
+  }
   const createParticipant = () => console.log("Create Participant");
 
   return (
@@ -145,7 +162,7 @@ export const MeetingView = ({ navigation: { navigate, getParam } }) => {
             />
           </TouchableOpacity>
         </StyledHeader>
-        <StyledInfo>{`${address}\n${neighborhood} - CEP ${cep}\n${city} - ${state}\n${time}`}</StyledInfo>
+        <StyledInfo>{`${address || ''}\n${neighborhood || ''}${cep ? " - CEP " : ''}${cep || ''}\n${city || ''}${state ? " - " : ''}${state || ''}\n${time || ''}`}</StyledInfo>
         <StyledSubHeader>Encontros</StyledSubHeader>
         {[0, 1, 2, 3, 4].map(id => (
           <MeetingItem
@@ -158,7 +175,7 @@ export const MeetingView = ({ navigation: { navigate, getParam } }) => {
           Participantes
         </StyledSubHeader>
         <ParticipantsList participants={participants} />
-        <StyledDeleteButton onPress={promptDelete}>
+        <StyledDeleteButton onPress={openDeleteModal}>
           <StyledDeleteText>Excluir casa de paz</StyledDeleteText>
           <StyledHR />
         </StyledDeleteButton>
@@ -170,6 +187,13 @@ export const MeetingView = ({ navigation: { navigate, getParam } }) => {
             textColor={colors.white}
           />
         </StyledGradientButtonContainer>
+        {showDeleteModal && <WarningModal 
+          message={'Deseja Excluir casa de paz?\nEssa ação não pode ser desfeita'}
+          confirmAction={deletePlace}
+          confirmText="Remover"
+          cancelAction={closeDeleteModal}
+          cancelText="Cancelar"
+        />}
       </StyledFullScreenContainer>
     </ScrollView>
   );

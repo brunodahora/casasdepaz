@@ -86,7 +86,7 @@ export function Password({
     setErrors({ ...errors, password: undefined, confirmPassword: undefined });
   };
 
-  const saveUserOnFirebase = ({ user }) => {
+  const saveUserOnFirebase = ({ user }) => {-
     console.log("User: ", user);
     firebase
       .firestore()
@@ -131,7 +131,7 @@ export function Password({
           .catch(error => {
             setLoading(false);
             console.log("Error signup: ", error);
-            const errorMessage = `Oops! Algo deu errado no seu cadatro: ${getError(
+            const errorMessage = `Oops! Algo deu errado no seu cadatro.\nEnvie uma mensagem via WhatsApp para (41) 999830607 para pedir ajuda.\n${getError(
               error
             )}`;
             if (Platform.OS === "web") {
