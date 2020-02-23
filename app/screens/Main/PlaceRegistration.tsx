@@ -344,7 +344,7 @@ export function PlaceRegistration({ navigation: { navigate, getParam } }) {
             onChangeText={setCepWithMask}
             error={errors.cep}
             keyboardType="number-pad"
-            maxLength={8}
+            maxLength={9}
           />
           <TextInput
             label="Bairro"

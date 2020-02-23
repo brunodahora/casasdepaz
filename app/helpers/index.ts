@@ -88,5 +88,5 @@ export const addCepMask = (cep: string): string => {
 
   const cleanCep = cep.replace(/\D/g, "");
 
-  return `${cleanCep.substring(0, 6)}-${cleanCep.substring(6)}`;
+  return `${cleanCep.substring(0, 5)}-${cleanCep.substring(5)}`;
 };

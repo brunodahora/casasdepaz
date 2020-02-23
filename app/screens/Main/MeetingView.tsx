@@ -89,7 +89,9 @@ const StyledGradientButtonContainer = styled.View`
 export const MeetingView = ({ navigation: { navigate, getParam } }) => {
   const id = getParam("id", null);
   const placeId = getParam("placeId", null);
-  const { user: { uid } } = React.useContext(UserContext);
+  const {
+    user: { uid }
+  } = React.useContext(UserContext);
 
   const db = firebase.firestore();
 
@@ -97,11 +99,11 @@ export const MeetingView = ({ navigation: { navigate, getParam } }) => {
   const [showDeleteModal, toggleDeleteModal] = React.useState(false);
 
   React.useEffect(() => {
-    db
-      .collection("places")
+    db.collection("places")
       .doc(placeId)
       .get()
-      .then(doc => {40
+      .then(doc => {
+        40;
         if (doc.exists) {
           setPlace(doc.data());
           StyledSubHeader;
@@ -133,19 +135,28 @@ export const MeetingView = ({ navigation: { navigate, getParam } }) => {
   const openDeleteModal = () => toggleDeleteModal(true);
   const closeDeleteModal = () => toggleDeleteModal(false);
   const deletePlace = () => {
-    db.collection(`users/${uid}/places`).doc(id).delete().then(() => {
-        db.collection("places").doc(placeId).delete().then(() => {
+    db.collection(`users/${uid}/places`)
+      .doc(id)
+      .delete()
+      .then(() => {
+        db.collection("places")
+          .doc(placeId)
+          .delete()
+          .then(() => {
             navigate("Main");
-        }).catch((error) => {
-          console.error("Error removing place: ", error);
-          Sentry.captureException(error);
-        });
-      }).catch((error) => {
+          })
+          .catch(error => {
+            console.error("Error removing place: ", error);
+            Sentry.captureException(error);
+          });
+      })
+      .catch(error => {
         console.error("Error removing place from user: ", error);
         Sentry.captureException(error);
-    });
-  }
-  const createParticipant = () => console.log("Create Participant");
+      });
+  };
+  const createParticipant = () =>
+    navigate("ParticipantRegistration", { placeId });
 
   return (
     <ScrollView>
@@ -162,7 +173,10 @@ export const MeetingView = ({ navigation: { navigate, getParam } }) => {
             />
           </TouchableOpacity>
         </StyledHeader>
-        <StyledInfo>{`${address || ''}\n${neighborhood || ''}${cep ? " - CEP " : ''}${cep || ''}\n${city || ''}${state ? " - " : ''}${state || ''}\n${time || ''}`}</StyledInfo>
+        <StyledInfo>{`${address || ""}\n${neighborhood || ""}${
+          cep ? " - CEP " : ""
+        }${cep || ""}\n${city || ""}${state ? " - " : ""}${state ||
+          ""}\n${time || ""}`}</StyledInfo>
         <StyledSubHeader>Encontros</StyledSubHeader>
         {[0, 1, 2, 3, 4].map(id => (
           <MeetingItem
@@ -187,13 +201,17 @@ export const MeetingView = ({ navigation: { navigate, getParam } }) => {
             textColor={colors.white}
           />
         </StyledGradientButtonContainer>
-        {showDeleteModal && <WarningModal 
-          message={'Deseja Excluir casa de paz?\nEssa ação não pode ser desfeita'}
-          confirmAction={deletePlace}
-          confirmText="Remover"
-          cancelAction={closeDeleteModal}
-          cancelText="Cancelar"
-        />}
+        {showDeleteModal && (
+          <WarningModal
+            message={
+              "Deseja Excluir casa de paz?\nEssa ação não pode ser desfeita"
+            }
+            confirmAction={deletePlace}
+            confirmText="Remover"
+            cancelAction={closeDeleteModal}
+            cancelText="Cancelar"
+          />
+        )}
       </StyledFullScreenContainer>
     </ScrollView>
   );
