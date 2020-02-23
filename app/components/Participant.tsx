@@ -1,9 +1,8 @@
 import React from "react";
-import { Image } from "react-native";
 import styled from "styled-components/native";
 import { colors } from "../constants";
 
-const StyledParticipantContainer = styled.TouchableOpacity`
+const StyledParticipantContainer = styled.View`
   width: 100%;
   border-bottom-width: 1px;
   align-items: center;
@@ -19,28 +18,14 @@ const StyledParticipantName = styled.Text`
   color: ${props => (props.completed ? colors.green : colors.darkGreen)};
 `;
 
-const StyledTouchableOpacity = styled.TouchableOpacity`
-  flex-direction: row;
-`;
-
-const StyledDisciple = styled.Text`
-  color: ${colors.purple};
-  font-size: 15px;
-  line-height: 18px;
-  margin-right: 21px;
-`;
-
-const onPress = participantId => () => console.log(participantId);
-
-export const Participant = ({ name, participantId }) => (
+export const Participant = ({
+  name,
+  participantId,
+  renderAction,
+  ...otherProps
+}) => (
   <StyledParticipantContainer>
     <StyledParticipantName>{name}</StyledParticipantName>
-    <StyledTouchableOpacity onPress={onPress(participantId)}>
-      <StyledDisciple>Quero ser discipulado</StyledDisciple>
-      <Image
-        source={require("assets/images/ic_arrow_forward.png")}
-        style={{ width: 18, height: 18, tintColor: colors.purple }}
-      />
-    </StyledTouchableOpacity>
+    {renderAction && renderAction({ participantId, ...otherProps })}
   </StyledParticipantContainer>
 );

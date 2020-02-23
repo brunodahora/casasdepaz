@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
+import { CenteredLoading } from "components";
 import { colors, fontWeight } from "../constants";
 
 import { Participant } from "./Participant";
@@ -12,7 +13,14 @@ const StyledEmptyText = styled.Text`
   color: ${colors.transparentGreen};
 `;
 
-export const ParticipantsList = ({ participants = [] }) => {
+export const ParticipantsList = ({
+  participants = [],
+  loading,
+  renderAction,
+  ...otherProps
+}) => {
+  if (loading) return <CenteredLoading />;
+
   if (participants.length === 0)
     return (
       <StyledEmptyText>
@@ -20,5 +28,12 @@ export const ParticipantsList = ({ participants = [] }) => {
       </StyledEmptyText>
     );
 
-  return participants.map(participant => <Participant {...participant} />);
+  return participants.map(participant => (
+    <Participant
+      key={participant.id}
+      {...participant}
+      renderAction={renderAction}
+      {...otherProps}
+    />
+  ));
 };

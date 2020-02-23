@@ -42,9 +42,7 @@ type Errors = {
   gender?: string;
 };
 
-export function ParticipantRegistration({
-  navigation: { navigate, getParam }
-}) {
+export function ParticipantRegistration({ navigation: { goBack, getParam } }) {
   const placeId = getParam("placeId", null);
 
   const [name, setName] = React.useState("");
@@ -72,7 +70,7 @@ export function ParticipantRegistration({
           })
           .then(() => {
             setLoading(false);
-            navigate("MeetingView");
+            goBack();
           })
           .catch(error => {
             setLoading(false);
@@ -102,7 +100,7 @@ export function ParticipantRegistration({
   };
 
   const handleBackPress = () => {
-    navigate("Main");
+    goBack();
     return true;
   };
 

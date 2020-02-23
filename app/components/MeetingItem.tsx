@@ -3,7 +3,7 @@ import { Image } from "react-native";
 import styled from "styled-components/native";
 import { colors } from "../constants";
 
-const StyledMeetingContainer = styled.TouchableOpacity`
+const StyledMeetingContainer = styled.View`
   width: 100%;
   border-bottom-width: 1px;
   align-items: center;
@@ -34,16 +34,18 @@ export const MeetingItem = ({ id, completed, onPress }) => (
   <StyledMeetingContainer>
     <StyledMeetingText completed={completed}>{`Encontro ${id +
       1}/5`}</StyledMeetingText>
-    {completed ? (
-      <StyledMeetingText completed={completed}>Concluído</StyledMeetingText>
-    ) : (
-      <StyledTouchableOpacity onPress={onPress}>
-        <StyledBegin>Iniciar</StyledBegin>
-        <Image
-          source={require("assets/images/ic_arrow_forward.png")}
-          style={{ width: 18, height: 18, tintColor: colors.purple }}
-        />
-      </StyledTouchableOpacity>
-    )}
+    <StyledTouchableOpacity onPress={onPress}>
+      {completed ? (
+        <StyledMeetingText completed={completed}>Concluído</StyledMeetingText>
+      ) : (
+        <>
+          <StyledBegin>Iniciar</StyledBegin>
+          <Image
+            source={require("assets/images/ic_arrow_forward.png")}
+            style={{ width: 18, height: 18, tintColor: colors.purple }}
+          />
+        </>
+      )}
+    </StyledTouchableOpacity>
   </StyledMeetingContainer>
 );

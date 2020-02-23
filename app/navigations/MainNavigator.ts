@@ -7,7 +7,8 @@ import {
   PlaceRegistration,
   Info,
   MeetingView,
-  ParticipantRegistration
+  ParticipantRegistration,
+  MeetingPresence
 } from "screens/Main";
 
 export const MainNavigator = createStackNavigator({
@@ -49,6 +50,12 @@ export const MainNavigator = createStackNavigator({
   },
   ParticipantRegistration: {
     screen: ParticipantRegistration,
+    navigationOptions: {
+      headerShown: false
+    }
+  },
+  MeetingPresence: {
+    screen: MeetingPresence,
     navigationOptions: {
       headerShown: false
     }

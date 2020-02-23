@@ -11,16 +11,12 @@ import {
   GradientButton,
   MeetingItem,
   ParticipantsList,
-  WarningModal
+  WarningModal,
+  DiscipleshipAction,
+  CenteredLoading
 } from "components";
 import { UserContext } from "helpers";
 import { colors, fontWeight } from "../../constants";
-
-const StyledActivityIndicator = styled.ActivityIndicator`
-  flex: 1;
-  align-self: center;
-  justify-content: center;
-`;
 
 const StyledFullScreenContainer = styled(FullScreenContainer)`
   align-items: flex-start;
@@ -86,7 +82,9 @@ const StyledGradientButtonContainer = styled.View`
   width: 100%;
 `;
 
-export const MeetingView = ({ navigation: { navigate, getParam } }) => {
+export const MeetingView = ({
+  navigation: { navigate, getParam, addListener }
+}) => {
   const id = getParam("id", null);
   const placeId = getParam("placeId", null);
   const {
@@ -98,8 +96,10 @@ export const MeetingView = ({ navigation: { navigate, getParam } }) => {
   const [place, setPlace] = React.useState(null);
   const [participants, setParticipants] = React.useState([]);
   const [showDeleteModal, toggleDeleteModal] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
 
-  React.useEffect(() => {
+  const fetchPlace = () => {
+    setLoading(true);
     db.collection("places")
       .doc(placeId)
       .get()
@@ -114,23 +114,27 @@ export const MeetingView = ({ navigation: { navigate, getParam } }) => {
                 participants.push({ id: doc.id, ...doc.data() })
               );
               setParticipants(participants);
+              setLoading(false);
             })
             .catch(error => {
               console.log(error);
               Sentry.captureException(error);
+              setLoading(false);
             });
         } else {
           console.log("No such document!");
+          setLoading(false);
         }
       })
       .catch(error => {
         console.log(error);
         Sentry.captureException(error);
+        setLoading(false);
       });
-  }, [placeId]);
+  };
+  addListener("willFocus", fetchPlace);
 
-  if (!place)
-    return <StyledActivityIndicator size="large" color={colors.green} />;
+  if (loading) return <CenteredLoading size="large" color={colors.green} />;
 
   const {
     address,
@@ -140,7 +144,7 @@ export const MeetingView = ({ navigation: { navigate, getParam } }) => {
     city,
     time,
     name,
-    meetings = []
+    meetings = {}
   } = place;
 
   const handleBackPress = () => navigate("Main");
@@ -175,7 +179,7 @@ export const MeetingView = ({ navigation: { navigate, getParam } }) => {
       <StyledFullScreenContainer>
         {Platform.OS !== "android" && <BackButton onPress={handleBackPress} />}
         <StyledHeader>
-          <StyledNameText>{`${name}`}</StyledNameText>
+          <StyledNameText>{name}</StyledNameText>
           <TouchableOpacity
             onPress={() => navigate("MeetingRegistration", { id, placeId })}
           >
@@ -195,12 +199,25 @@ export const MeetingView = ({ navigation: { navigate, getParam } }) => {
             key={`metting-${id}`}
             id={id}
             completed={!isEmpty(meetings) && meetings[id]}
+            onPress={() =>
+              navigate("MeetingPresence", {
+                placeId,
+                meetings,
+                meetingId: id,
+                placeName: name
+              })
+            }
           />
         ))}
         <StyledSubHeader isEmpty={isEmpty(participants)}>
           Participantes
         </StyledSubHeader>
-        <ParticipantsList participants={participants} />
+        <ParticipantsList
+          participants={participants}
+          renderAction={participantId => (
+            <DiscipleshipAction participantId={participantId} />
+          )}
+        />
         <StyledDeleteButton onPress={openDeleteModal}>
           <StyledDeleteText>Excluir casa de paz</StyledDeleteText>
           <StyledHR />
