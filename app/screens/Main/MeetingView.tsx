@@ -96,6 +96,7 @@ export const MeetingView = ({ navigation: { navigate, getParam } }) => {
   const db = firebase.firestore();
 
   const [place, setPlace] = React.useState(null);
+  const [participants, setParticipants] = React.useState([]);
   const [showDeleteModal, toggleDeleteModal] = React.useState(false);
 
   React.useEffect(() => {
@@ -103,10 +104,22 @@ export const MeetingView = ({ navigation: { navigate, getParam } }) => {
       .doc(placeId)
       .get()
       .then(doc => {
-        40;
         if (doc.exists) {
           setPlace(doc.data());
-          StyledSubHeader;
+          db.collection(`places/${placeId}/participants`)
+            .get()
+            .then(querySnapshot => {
+              const participants = [];
+              querySnapshot.forEach(doc =>
+                participants.push({ id: doc.id, ...doc.data() })
+              );
+              setParticipants(participants);
+            })
+            .catch(error => {
+              console.log(error);
+              Sentry.captureException(error);
+            });
+        } else {
           console.log("No such document!");
         }
       })
@@ -127,8 +140,7 @@ export const MeetingView = ({ navigation: { navigate, getParam } }) => {
     city,
     time,
     name,
-    meetings = [],
-    participants = []
+    meetings = []
   } = place;
 
   const handleBackPress = () => navigate("Main");

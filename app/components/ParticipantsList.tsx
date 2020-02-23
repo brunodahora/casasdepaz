@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components/native";
 import { colors, fontWeight } from "../constants";
 
+import { Participant } from "./Participant";
+
 const StyledEmptyText = styled.Text`
   font-size: 14px;
   font-weight: ${fontWeight.light};
@@ -18,5 +20,5 @@ export const ParticipantsList = ({ participants = [] }) => {
       </StyledEmptyText>
     );
 
-  return null;
+  return participants.map(participant => <Participant {...participant} />);
 };
