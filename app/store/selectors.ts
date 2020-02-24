@@ -24,12 +24,13 @@ export const getMoreInfoData = ({
 });
 
 export const getMeetingData = ({
-  place: { name, time, owner, phone, email, partner }
-}: ReduxState) => ({ name, time, owner, phone, email, partner });
+  place: { name, weekDay, time, owner, phone, email, partner }
+}: ReduxState) => ({ name, weekDay, time, owner, phone, email, partner });
 
 export const getPlaceData = ({
   place: {
     name,
+    weekDay,
     time,
     owner,
     phone,
@@ -45,6 +46,7 @@ export const getPlaceData = ({
   }
 }: ReduxState) => ({
   name,
+  weekDay,
   time,
   owner,
   phone,

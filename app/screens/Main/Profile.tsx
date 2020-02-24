@@ -174,9 +174,9 @@ export function Profile({
   };
 
   return (
-    <StyledFullScreenContainer>
-      <ScrollViewContainer>
-        <KeyboardAvoidingView behavior="padding" enabled>
+    <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1 }}>
+      <StyledFullScreenContainer>
+        <ScrollViewContainer>
           {Platform.OS !== "android" && (
             <BackButton onPress={() => navigate("MoreInfo")} />
           )}
@@ -258,8 +258,8 @@ export function Profile({
             />
           )}
           <PaddingBottom />
-        </KeyboardAvoidingView>
-      </ScrollViewContainer>
-    </StyledFullScreenContainer>
+        </ScrollViewContainer>
+      </StyledFullScreenContainer>
+    </KeyboardAvoidingView>
   );
 }

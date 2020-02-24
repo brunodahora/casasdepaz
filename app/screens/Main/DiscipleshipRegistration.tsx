@@ -166,9 +166,9 @@ export function DiscipleshipRegistration({ navigation: { goBack, getParam } }) {
   };
 
   return (
-    <ScrollView>
-      <StyledFullScreenContainer>
-        <KeyboardAvoidingView behavior="padding" enabled>
+    <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+      <ScrollView>
+        <StyledFullScreenContainer>
           <FillScreenContainer>
             {Platform.OS !== "android" && (
               <BackButton onPress={handleBackPress} />
@@ -235,8 +235,8 @@ export function DiscipleshipRegistration({ navigation: { goBack, getParam } }) {
               textColor={colors.white}
             />
           )}
-        </KeyboardAvoidingView>
-      </StyledFullScreenContainer>
-    </ScrollView>
+        </StyledFullScreenContainer>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }

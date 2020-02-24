@@ -142,6 +142,7 @@ export const MeetingView = ({
     neighborhood,
     state,
     city,
+    weekDay,
     time,
     name,
     meetings = {}
@@ -195,7 +196,7 @@ export const MeetingView = ({
         <StyledInfo>{`${address || ""}\n${neighborhood || ""}${
           cep ? " - CEP " : ""
         }${cep || ""}\n${city || ""}${state ? " - " : ""}${state ||
-          ""}\n${time || ""}`}</StyledInfo>
+          ""}\n${weekDay || ""}\n${time || ""}`}</StyledInfo>
         <StyledSubHeader>Encontros</StyledSubHeader>
         {[0, 1, 2, 3, 4].map(id => (
           <MeetingItem

@@ -149,9 +149,9 @@ export function MeetingRegistration({ navigation: { navigate, getParam } }) {
   }, [placeId]);
 
   return (
-    <StyledFullScreenContainer>
-      <ScrollViewContainer>
-        <KeyboardAvoidingView behavior="padding" enabled>
+    <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1 }}>
+      <StyledFullScreenContainer>
+        <ScrollViewContainer>
           {Platform.OS !== "android" && (
             <BackButton onPress={handleBackPress} />
           )}
@@ -212,15 +212,15 @@ export function MeetingRegistration({ navigation: { navigate, getParam } }) {
             keyboardType="number-pad"
           />
           <PaddingBottom />
-        </KeyboardAvoidingView>
-      </ScrollViewContainer>
-      <GradientButton
-        onPress={onSubmit}
-        title={"Continuar"}
-        colors={colors.gradient}
-        textColor={colors.white}
-      />
-      <PaddingBottom />
-    </StyledFullScreenContainer>
+        </ScrollViewContainer>
+        <GradientButton
+          onPress={onSubmit}
+          title={"Continuar"}
+          colors={colors.gradient}
+          textColor={colors.white}
+        />
+        <PaddingBottom />
+      </StyledFullScreenContainer>
+    </KeyboardAvoidingView>
   );
 }

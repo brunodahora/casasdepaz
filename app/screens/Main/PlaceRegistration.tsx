@@ -66,6 +66,7 @@ export function PlaceRegistration({ navigation: { navigate, getParam } }) {
     neighborhood,
     state,
     city,
+    weekDay,
     time,
     name,
     owner,
@@ -73,6 +74,7 @@ export function PlaceRegistration({ navigation: { navigate, getParam } }) {
     email,
     partner
   } = useSelector(getPlaceData);
+  console.log(weekDay);
 
   const id = getParam("id", null);
   const placeId = getParam("placeId", null);
@@ -125,6 +127,7 @@ export function PlaceRegistration({ navigation: { navigate, getParam } }) {
         neighborhood,
         state,
         city,
+        weekDay,
         time,
         name,
         owner,
@@ -207,6 +210,7 @@ export function PlaceRegistration({ navigation: { navigate, getParam } }) {
         neighborhood,
         state,
         city,
+        weekDay,
         time,
         name,
         owner,
@@ -282,7 +286,6 @@ export function PlaceRegistration({ navigation: { navigate, getParam } }) {
   const onSubmit = () => {
     let errors: Errors = {};
 
-    console.log(type, otherType);
     if (type === "") errors.address = "Tipo é obrigatório";
     if (type === "Outros" && otherType === "")
       errors.address = "Tipo é obrigatório";
@@ -303,9 +306,9 @@ export function PlaceRegistration({ navigation: { navigate, getParam } }) {
   const handleBackPress = () => navigate("MeetingRegistration");
 
   return (
-    <StyledFullScreenContainer>
-      <ScrollViewContainer>
-        <KeyboardAvoidingView behavior="padding" enabled>
+    <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1 }}>
+      <StyledFullScreenContainer>
+        <ScrollViewContainer>
           {Platform.OS !== "android" && (
             <BackButton onPress={handleBackPress} />
           )}
@@ -364,19 +367,19 @@ export function PlaceRegistration({ navigation: { navigate, getParam } }) {
             onChangeText={setCity}
             error={errors.city}
           />
-        </KeyboardAvoidingView>
-      </ScrollViewContainer>
-      {loading ? (
-        <StyledActivityIndicator size="large" color={colors.green} />
-      ) : (
-        <GradientButton
-          onPress={onSubmit}
-          title={placeId ? "Salvar" : "Cadastrar"}
-          colors={colors.gradient}
-          textColor={colors.white}
-        />
-      )}
-      <PaddingBottom />
-    </StyledFullScreenContainer>
+        </ScrollViewContainer>
+        {loading ? (
+          <StyledActivityIndicator size="large" color={colors.green} />
+        ) : (
+          <GradientButton
+            onPress={onSubmit}
+            title={placeId ? "Salvar" : "Cadastrar"}
+            colors={colors.gradient}
+            textColor={colors.white}
+          />
+        )}
+        <PaddingBottom />
+      </StyledFullScreenContainer>
+    </KeyboardAvoidingView>
   );
 }

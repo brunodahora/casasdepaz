@@ -29,6 +29,7 @@ export type PlaceData = {
   neighborhood?: string;
   state?: string;
   city?: string;
+  weekDay?: string;
   time?: string;
   name?: string;
   owner?: string;

@@ -105,8 +105,8 @@ export function ParticipantRegistration({ navigation: { goBack, getParam } }) {
   };
 
   return (
-    <StyledFullScreenContainer>
-      <KeyboardAvoidingView behavior="padding" enabled>
+    <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1 }}>
+      <StyledFullScreenContainer>
         <FillScreenContainer>
           {Platform.OS !== "android" && (
             <BackButton onPress={handleBackPress} />
@@ -147,7 +147,7 @@ export function ParticipantRegistration({ navigation: { goBack, getParam } }) {
             textColor={colors.white}
           />
         )}
-      </KeyboardAvoidingView>
-    </StyledFullScreenContainer>
+      </StyledFullScreenContainer>
+    </KeyboardAvoidingView>
   );
 }
