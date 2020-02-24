@@ -20,6 +20,7 @@ const StyledLabel = styled.Text`
 
 const StyledError = styled(StyledLabel)`
   color: ${colors.red};
+  margin-top: 8px;
   margin-bottom: 12px;
 `;
 

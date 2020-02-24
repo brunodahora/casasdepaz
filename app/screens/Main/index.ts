@@ -6,3 +6,4 @@ export { Info } from "./Info";
 export { MeetingView } from "./MeetingView";
 export { MeetingPresence } from "./MeetingPresence";
 export { ParticipantRegistration } from "./ParticipantRegistration";
+export { DiscipleshipRegistration } from "./DiscipleshipRegistration";

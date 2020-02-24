@@ -174,6 +174,9 @@ export const MeetingView = ({
   const createParticipant = () =>
     navigate("ParticipantRegistration", { placeId });
 
+  const registerDiscipleship = participantId => () =>
+    navigate("DiscipleshipRegistration", { placeId, participantId });
+
   return (
     <ScrollView>
       <StyledFullScreenContainer>
@@ -214,9 +217,8 @@ export const MeetingView = ({
         </StyledSubHeader>
         <ParticipantsList
           participants={participants}
-          renderAction={participantId => (
-            <DiscipleshipAction participantId={participantId} />
-          )}
+          onPress={registerDiscipleship}
+          renderAction={DiscipleshipAction}
         />
         <StyledDeleteButton onPress={openDeleteModal}>
           <StyledDeleteText>Excluir casa de paz</StyledDeleteText>

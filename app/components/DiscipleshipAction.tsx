@@ -14,9 +14,7 @@ const StyledDisciple = styled.Text`
   margin-right: 21px;
 `;
 
-const onPress = participantId => () => console.log(participantId);
-
-export const DiscipleshipAction = ({ participantId }) => (
+export const DiscipleshipAction = ({ participantId, onPress }) => (
   <StyledTouchableOpacity onPress={onPress(participantId)}>
     <StyledDisciple>Quero ser discipulado</StyledDisciple>
     <Image

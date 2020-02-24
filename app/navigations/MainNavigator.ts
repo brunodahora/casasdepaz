@@ -7,8 +7,9 @@ import {
   PlaceRegistration,
   Info,
   MeetingView,
+  MeetingPresence,
   ParticipantRegistration,
-  MeetingPresence
+  DiscipleshipRegistration
 } from "screens/Main";
 
 export const MainNavigator = createStackNavigator({
@@ -56,6 +57,12 @@ export const MainNavigator = createStackNavigator({
   },
   MeetingPresence: {
     screen: MeetingPresence,
+    navigationOptions: {
+      headerShown: false
+    }
+  },
+  DiscipleshipRegistration: {
+    screen: DiscipleshipRegistration,
     navigationOptions: {
       headerShown: false
     }
