@@ -4,12 +4,8 @@
     "slug": "casasdepaz",
     "privacy": "public",
     "sdkVersion": "36.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "version": "1.0.1",
+    "platforms": ["ios", "android", "web"],
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -20,18 +16,16 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "android": {
       "package": "br.com.pibcuritiba.casasdepaz",
-      "versionCode": 10001,
+      "versionCode": 10100,
       "permissions": []
     },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "br.com.pibcuritiba.casasdepaz",
-      "buildNumber": "10001",
+      "buildNumber": "10101",
       "icon": "./assets/images/icon.png"
     },
     "hooks": {
