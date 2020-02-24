@@ -66,6 +66,11 @@ const FillScreenContainer = styled.View`
   width: 100%;
 `;
 
+const ScrollViewContainer = styled.ScrollView`
+  flex: 1;
+  width: 100%;
+`;
+
 export const MeetingPresence = ({
   navigation: { navigate, getParam, addListener }
 }) => {
@@ -130,8 +135,8 @@ export const MeetingPresence = ({
   };
 
   return (
-    <ScrollView>
-      <StyledFullScreenContainer>
+    <StyledFullScreenContainer>
+      <ScrollViewContainer>
         {Platform.OS !== "android" && <BackButton onPress={handleBackPress} />}
         <StyledHeader>
           <StyledNameText>{`${placeName}`}</StyledNameText>
@@ -147,16 +152,15 @@ export const MeetingPresence = ({
           renderAction={PresenceAction}
           onPress={toggleParticipantPresence}
         />
-        <FillScreenContainer />
-        <StyledGradientButtonContainer>
-          <GradientButton
-            onPress={createParticipant}
-            title="+ Cadastrar Participante"
-            colors={colors.gradient}
-            textColor={colors.white}
-          />
-        </StyledGradientButtonContainer>
-      </StyledFullScreenContainer>
-    </ScrollView>
+      </ScrollViewContainer>
+      <StyledGradientButtonContainer>
+        <GradientButton
+          onPress={createParticipant}
+          title="+ Cadastrar Participante"
+          colors={colors.gradient}
+          textColor={colors.white}
+        />
+      </StyledGradientButtonContainer>
+    </StyledFullScreenContainer>
   );
 };

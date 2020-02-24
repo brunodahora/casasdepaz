@@ -41,6 +41,7 @@ const PaddingBottom = styled.View`
 
 type Errors = {
   name?: string;
+  weekDay?: string;
   time?: string;
   owner?: string;
   phone?: string;
@@ -50,7 +51,7 @@ type Errors = {
 
 export function MeetingRegistration({ navigation: { navigate, getParam } }) {
   const dispatch = useDispatch();
-  const { name, time, owner, phone, email, partner } = useSelector(
+  const { name, weekDay, time, owner, phone, email, partner } = useSelector(
     getMeetingData
   );
   const [errors, setErrors] = React.useState<Errors>({});
@@ -63,6 +64,10 @@ export function MeetingRegistration({ navigation: { navigate, getParam } }) {
   const setName = (name: string) => {
     updateData({ name });
     setErrors({ ...errors, name: undefined });
+  };
+  const setWeekDay = (weekDay: string) => {
+    updateData({ weekDay });
+    setErrors({ ...errors, weekDay: undefined });
   };
   const setTimeWithMask = (time: string) => {
     updateData({ time: addTimeMask(time) });
@@ -89,6 +94,7 @@ export function MeetingRegistration({ navigation: { navigate, getParam } }) {
     let errors: Errors = {};
 
     if (name === "") errors.name = "Nome é obrigatório";
+    if (weekDay === "") errors.weekDay = "Dia da semana é obrigatório";
     if (time === "") errors.time = "Horário é obrigatório";
     if (owner === "") errors.owner = "Proprietário é obrigatório";
     if (phone === "") errors.phone = "Telefone é obrigatório";
@@ -156,6 +162,13 @@ export function MeetingRegistration({ navigation: { navigate, getParam } }) {
             onChangeText={setName}
             error={errors.name}
             placeholder="Casa do João"
+          />
+          <TextInput
+            label="Dia da semana"
+            value={weekDay}
+            onChangeText={setWeekDay}
+            error={errors.weekDay}
+            placeholder="Segunda"
           />
           <TextInput
             label="Horário"

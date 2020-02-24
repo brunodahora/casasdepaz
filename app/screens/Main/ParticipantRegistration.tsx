@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform } from "react-native";
+import { Platform, KeyboardAvoidingView } from "react-native";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import styled from "styled-components/native";
 import firebase from "firebase";
@@ -106,44 +106,48 @@ export function ParticipantRegistration({ navigation: { goBack, getParam } }) {
 
   return (
     <StyledFullScreenContainer>
-      <FillScreenContainer>
-        {Platform.OS !== "android" && <BackButton onPress={handleBackPress} />}
-        <StyledHeaderText>Dados do participante</StyledHeaderText>
-        <TextInput
-          label="Nome"
-          value={name}
-          onChangeText={setName}
-          error={errors.name}
-        />
-        <TextInput
-          label="Idade"
-          value={age}
-          onChangeText={setAge}
-          error={errors.age}
-          keyboardType="number-pad"
-        />
-        <Picker
-          label="Sexo"
-          error={errors.gender}
-          placeholder={{ label: "Selecione...", value: "" }}
-          options={[
-            { label: "Masculino", value: "Masculino" },
-            { label: "Feminino", value: "Feminino" }
-          ]}
-          selectedValue={gender}
-          onValueChange={setGender}
-        />
-      </FillScreenContainer>
-      {loading ? (
-        <StyledActivityIndicator size="large" color={colors.green} />
-      ) : (
-        <GradientButton
-          onPress={onSubmit}
-          title="Cadastrar"
-          colors={colors.gradient}
-          textColor={colors.white}
-        />
-      )}
+      <KeyboardAvoidingView behavior="padding" enabled>
+        <FillScreenContainer>
+          {Platform.OS !== "android" && (
+            <BackButton onPress={handleBackPress} />
+          )}
+          <StyledHeaderText>Dados do participante</StyledHeaderText>
+          <TextInput
+            label="Nome"
+            value={name}
+            onChangeText={setName}
+            error={errors.name}
+          />
+          <TextInput
+            label="Idade"
+            value={age}
+            onChangeText={setAge}
+            error={errors.age}
+            keyboardType="number-pad"
+          />
+          <Picker
+            label="Sexo"
+            error={errors.gender}
+            placeholder={{ label: "Selecione...", value: "" }}
+            options={[
+              { label: "Masculino", value: "Masculino" },
+              { label: "Feminino", value: "Feminino" }
+            ]}
+            selectedValue={gender}
+            onValueChange={setGender}
+          />
+        </FillScreenContainer>
+        {loading ? (
+          <StyledActivityIndicator size="large" color={colors.green} />
+        ) : (
+          <GradientButton
+            onPress={onSubmit}
+            title="Cadastrar"
+            colors={colors.gradient}
+            textColor={colors.white}
+          />
+        )}
+      </KeyboardAvoidingView>
     </StyledFullScreenContainer>
   );
 }

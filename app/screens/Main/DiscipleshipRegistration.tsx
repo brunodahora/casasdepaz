@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform, ScrollView } from "react-native";
+import { Platform, ScrollView, KeyboardAvoidingView } from "react-native";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import styled from "styled-components/native";
 import firebase from "firebase";
@@ -168,72 +168,74 @@ export function DiscipleshipRegistration({ navigation: { goBack, getParam } }) {
   return (
     <ScrollView>
       <StyledFullScreenContainer>
-        <FillScreenContainer>
-          {Platform.OS !== "android" && (
-            <BackButton onPress={handleBackPress} />
+        <KeyboardAvoidingView behavior="padding" enabled>
+          <FillScreenContainer>
+            {Platform.OS !== "android" && (
+              <BackButton onPress={handleBackPress} />
+            )}
+            <StyledHeaderText>Dados do discipulado</StyledHeaderText>
+            <TextInput
+              label="Nome"
+              value={name}
+              onChangeText={setName}
+              error={errors.name}
+            />
+            <TextInput
+              label="Idade"
+              value={age}
+              onChangeText={setAge}
+              error={errors.age}
+              keyboardType="number-pad"
+            />
+            <Picker
+              label="Sexo"
+              error={errors.gender}
+              placeholder={{ label: "Selecione...", value: "" }}
+              options={[
+                { label: "Masculino", value: "Masculino" },
+                { label: "Feminino", value: "Feminino" }
+              ]}
+              selectedValue={gender}
+              onValueChange={setGender}
+            />
+            <TextInput
+              label="Email"
+              value={email}
+              onChangeText={setEmail}
+              error={errors.email}
+            />
+            <TextInput
+              label="Telefone"
+              value={phone}
+              onChangeText={setPhoneWithMask}
+              maxLength={15}
+              keyboardType="phone-pad"
+              error={errors.phone}
+            />
+            <TextInput
+              label="CPF"
+              value={cpf}
+              onChangeText={setCpfWithMask}
+              maxLength={14}
+              error={errors.cpf}
+            />
+            <TextInput
+              label="Líder do grupo de discipulado"
+              value={leader}
+              onChangeText={setLeader}
+            />
+          </FillScreenContainer>
+          {loading ? (
+            <StyledActivityIndicator size="large" color={colors.green} />
+          ) : (
+            <GradientButton
+              onPress={onSubmit}
+              title="Cadastrar"
+              colors={colors.gradient}
+              textColor={colors.white}
+            />
           )}
-          <StyledHeaderText>Dados do discipulado</StyledHeaderText>
-          <TextInput
-            label="Nome"
-            value={name}
-            onChangeText={setName}
-            error={errors.name}
-          />
-          <TextInput
-            label="Idade"
-            value={age}
-            onChangeText={setAge}
-            error={errors.age}
-            keyboardType="number-pad"
-          />
-          <Picker
-            label="Sexo"
-            error={errors.gender}
-            placeholder={{ label: "Selecione...", value: "" }}
-            options={[
-              { label: "Masculino", value: "Masculino" },
-              { label: "Feminino", value: "Feminino" }
-            ]}
-            selectedValue={gender}
-            onValueChange={setGender}
-          />
-          <TextInput
-            label="Email"
-            value={email}
-            onChangeText={setEmail}
-            error={errors.email}
-          />
-          <TextInput
-            label="Telefone"
-            value={phone}
-            onChangeText={setPhoneWithMask}
-            maxLength={15}
-            keyboardType="phone-pad"
-            error={errors.phone}
-          />
-          <TextInput
-            label="CPF"
-            value={cpf}
-            onChangeText={setCpfWithMask}
-            maxLength={14}
-            error={errors.cpf}
-          />
-          <TextInput
-            label="Líder do grupo de discipulado"
-            value={leader}
-            onChangeText={setLeader}
-          />
-        </FillScreenContainer>
-        {loading ? (
-          <StyledActivityIndicator size="large" color={colors.green} />
-        ) : (
-          <GradientButton
-            onPress={onSubmit}
-            title="Cadastrar"
-            colors={colors.gradient}
-            textColor={colors.white}
-          />
-        )}
+        </KeyboardAvoidingView>
       </StyledFullScreenContainer>
     </ScrollView>
   );
