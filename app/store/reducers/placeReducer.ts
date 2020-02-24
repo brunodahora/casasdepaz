@@ -22,7 +22,6 @@ const initialState: PlaceData = {
 export const place = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_PLACE_DATA:
-      console.log(action.payload);
       return { ...state, ...action.payload };
     case CLEAR_PLACE_DATA:
       return initialState;

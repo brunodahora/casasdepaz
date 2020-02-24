@@ -74,7 +74,6 @@ export function PlaceRegistration({ navigation: { navigate, getParam } }) {
     email,
     partner
   } = useSelector(getPlaceData);
-  console.log(weekDay);
 
   const id = getParam("id", null);
   const placeId = getParam("placeId", null);
