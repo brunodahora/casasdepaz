@@ -1,4 +1,5 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
@@ -66,9 +67,11 @@ export function Contacts({ navigation: { navigate } }) {
   const onSubmit = () => {
     let errors: Errors = {};
 
+    if (Platform.OS !== 'ios') {
+      if (phone === '') errors.phone = 'Telefone é obrigatório';
+      if (phone.length < 14) errors.phone = 'Número incompleto';
+    }
     if (email === '') errors.email = 'Email é obrigatório';
-    if (phone === '') errors.phone = 'Telefone é obrigatório';
-    if (phone.length < 14) errors.phone = 'Número incompleto';
     if (!emailRegex.test(String(email).toLowerCase())) {
       errors.email = 'E-mail inválido';
     }
