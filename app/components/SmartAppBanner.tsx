@@ -45,13 +45,16 @@ export const SmartAppBanner = () => {
   } else if (/iPad|iPhone|iPod/.test(window.navigator.userAgent)) {
     os = "ios";
   }
-  if (os !== "android") return null;
 
   const platform = {
     android: {
       storeName: "Play Store",
       link:
         "https://play.google.com/store/apps/details?id=br.com.pibcuritiba.casasdepaz"
+    },
+    ios: {
+      storeName: "App Store",
+      link: "https://apps.apple.com/us/app/casas-de-paz/id1498507346?ls=1"
     }
   };
 
