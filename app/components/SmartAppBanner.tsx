@@ -37,14 +37,14 @@ export const SmartAppBanner = () => {
 
   if (Platform.OS !== "web" || !showBanner) return null;
 
-  console.log(window.navigator.userAgent);
-
   let os = null;
   if (/Android/.test(window.navigator.userAgent)) {
     os = "android";
   } else if (/iPad|iPhone|iPod/.test(window.navigator.userAgent)) {
     os = "ios";
   }
+
+  if (os === null) return null;
 
   const platform = {
     android: {
